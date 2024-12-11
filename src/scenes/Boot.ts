@@ -13,12 +13,18 @@ export class Boot extends Scene {
       frameWidth: 16,
       frameHeight: 16,
     });
-    this.load.image(key.image.tuxemon, assets.tilesets.tuxemon);
-    this.load.tilemapTiledJSON(key.tilemap.tuxemon, assets.tilemaps.tuxemon);
     this.load.atlas(key.atlas.player, assets.atlas.image, assets.atlas.data);
+
+    for (const { name, tileset, tilemap } of Object.values(key.maps)) {
+      this.load.image(name, tileset);
+      this.load.tilemapTiledJSON(name, tilemap);
+    }
+
+    // this.load.image(key.image.tuxemon, assets.tilesets.tuxemon);
+    // this.load.tilemapTiledJSON(key.tilemap.tuxemon, assets.tilemaps.tuxemon);
   }
 
   create() {
-    this.scene.start(key.scene.main);
+    this.scene.start(key.scene.overworld, { map: key.maps['tuxemon'] });
   }
 }

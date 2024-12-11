@@ -1,3 +1,5 @@
+import * as assets from '../assets';
+
 const atlas = {
   player: 'player',
 } as const;
@@ -5,11 +7,25 @@ const atlas = {
 const image = {
   spaceman: 'spaceman',
   tuxemon: 'tuxemon',
+  forest: 'forest',
+} as const;
+
+const maps: Record<string, MapType> = {
+  tuxemon: {
+    name: 'tuxemon',
+    tileset: assets.tilesets.tuxemon,
+    tilemap: assets.tilemaps.tuxemon,
+  },
+  forest: {
+    name: 'forest',
+    tileset: assets.tilesets.tuxemon,
+    tilemap: assets.tilemaps.forest,
+  },
 } as const;
 
 const scene = {
   boot: 'boot',
-  main: 'main',
+  overworld: 'overworld',
   menu: 'menu',
 } as const;
 
@@ -22,4 +38,5 @@ export const key = {
   image,
   scene,
   tilemap,
+  maps,
 } as const;

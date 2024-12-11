@@ -10,8 +10,11 @@ export class Menu extends Scene {
   }
 
   create() {
-    this.input.keyboard!.on('keydown-ESC', this.exit, this);
+    ['keydown-ESC', 'keydown-X'].forEach((event) => {
+      this.input.keyboard!.on(event, this.exit, this);
+    });
     const { centerX, centerY } = this.cameras.main;
+    console.log('created?');
 
     render(
       <>
@@ -26,7 +29,7 @@ export class Menu extends Scene {
   }
 
   private exit() {
-    this.scene.resume(key.scene.main);
+    this.scene.resume(key.scene.overworld);
     this.scene.stop();
   }
 }

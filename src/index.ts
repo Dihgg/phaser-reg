@@ -11,10 +11,7 @@ new Phaser.Game({
   title: 'Phaser RPG',
   url: import.meta.env.VITE_APP_HOMEPAGE,
   version: import.meta.env.VITE_APP_VERSION,
-  scene: [
-    scenes.Boot,
-    ...Object.values(scenes).filter((scene) => scene !== scenes.Boot),
-  ],
+  scene: Object.values(scenes),
   physics: {
     default: 'arcade',
     arcade: {
