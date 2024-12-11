@@ -15,7 +15,12 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "phaser-jsx"
+    "jsxImportSource": "phaser-jsx",
+    "paths": {
+      "@assets": ["./src/assets/index"],
+      "@constants": ["./src/constants/index"],
+      "@components": ["./src/components/index"],
+    }
   },
   "include": ["src"]
 }

@@ -1,8 +1,7 @@
+import { Button, Overlay } from '@components';
+import { key } from '@constants';
 import { Scene } from 'phaser';
 import { render } from 'phaser-jsx';
-
-import { Button, Overlay } from '../components';
-import { key } from '../constants';
 
 export class Menu extends Scene {
   constructor() {
@@ -14,15 +13,19 @@ export class Menu extends Scene {
       this.input.keyboard!.on(event, this.exit, this);
     });
     const { centerX, centerY } = this.cameras.main;
-    console.log('created?');
 
     render(
       <>
         <Overlay />
 
-        <Button center fixed onClick={this.exit} x={centerX} y={centerY}>
-          Resume
-        </Button>
+        <Button
+          center
+          fixed
+          onClick={this.exit}
+          x={centerX}
+          y={centerY}
+          children={'Resume'}
+        />
       </>,
       this,
     );

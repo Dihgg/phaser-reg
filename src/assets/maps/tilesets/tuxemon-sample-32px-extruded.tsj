@@ -1,0 +1,14 @@
+{ "columns":25,
+ "image":"tuxemon-sample-32px-extruded.png",
+ "imageheight":1020,
+ "imagewidth":816,
+ "margin":0,
+ "name":"tuxemon-sample-32px-extruded",
+ "spacing":0,
+ "tilecount":775,
+ "tiledversion":"1.11.0",
+ "tileheight":32,
+ "tilewidth":32,
+ "type":"tileset",
+ "version":"1.10"
+}

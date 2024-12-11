@@ -1,7 +1,7 @@
+import * as assets from '@assets';
+import { key } from '@constants';
 import { Scene } from 'phaser';
 
-import * as assets from '../assets';
-import { key } from '../constants';
 
 export class Boot extends Scene {
   constructor() {

@@ -52,9 +52,10 @@
     ],
     "project": "game.tiled-project",
     "recentFiles": [
+        "tilemaps/forest.tmx",
         "tilemaps/tuxemon-town.json",
         "tilesets/tuxemon-sample-32px-extruded.tsx",
-        "tilemaps/forest.json",
-        "tilemaps/forest.tmx"
-    ]
+        "tilemaps/forest.json"
+    ],
+    "tileset.lastUsedFormat": "json"
 }

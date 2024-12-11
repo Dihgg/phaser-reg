@@ -33,8 +33,8 @@ export function TilemapDebug(props: Props) {
     <Graphics
       alpha={0}
       depth={Depth.AboveWorld}
-      ref={(gameobject) => {
-        graphics = gameobject;
+      ref={(gameObject: never) => {
+        graphics = gameObject;
         renderDebug();
       }}
     />

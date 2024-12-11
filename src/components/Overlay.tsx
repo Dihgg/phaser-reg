@@ -3,7 +3,6 @@ import { Rectangle, useScene } from 'phaser-jsx';
 export function Overlay() {
   const scene = useScene();
   const { width, height } = scene.cameras.main;
-  console.log('where is the overelay?');
 
   return (
     <Rectangle
