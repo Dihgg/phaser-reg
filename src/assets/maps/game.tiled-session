@@ -3,6 +3,9 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
         "tilemaps/forest.json": {
             "scale": 0.6672265625,
             "selectedLayer": 0,

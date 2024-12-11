@@ -1,5 +1,3 @@
-export const TILESET_NAME = 'tuxemon-sample-32px-extruded';
-
 export enum TilemapLayer {
   BelowPlayer = 'Below Player',
   World = 'World',

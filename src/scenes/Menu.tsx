@@ -30,6 +30,7 @@ export class Menu extends Scene {
 
   private exit() {
     this.scene.resume(key.scene.overworld);
+    this.scene.setVisible(true, key.scene.overworld);
     this.scene.stop();
   }
 }
