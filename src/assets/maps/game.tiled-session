@@ -1,6 +1,9 @@
 {
-    "activeFile": "",
+    "activeFile": "tilesets/tuxemon-sample-32px-extruded.tsj",
     "expandedProjectPaths": [
+        "tilemaps",
+        ".",
+        "tilesets"
     ],
     "fileStates": {
         "": {
@@ -40,6 +43,10 @@
         "tilemaps/tuxemon-town.json#tuxemon-sample-32px-extruded": {
             "scaleInDock": 1
         },
+        "tilesets/tuxemon-sample-32px-extruded.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "tilesets/tuxemon-sample-32px-extruded.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
@@ -49,9 +56,11 @@
         "/Users/diego.lopes/Projects/phaser-rpg/src/assets/maps/game.world"
     ],
     "openFiles": [
+        "tilesets/tuxemon-sample-32px-extruded.tsj"
     ],
     "project": "game.tiled-project",
     "recentFiles": [
+        "tilesets/tuxemon-sample-32px-extruded.tsj",
         "tilemaps/forest.tmx",
         "tilemaps/tuxemon-town.json",
         "tilesets/tuxemon-sample-32px-extruded.tsx",

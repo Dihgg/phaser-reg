@@ -1,13 +1,14 @@
-import Phaser from 'phaser';
+import Phaser, { Game } from 'phaser';
 
 import * as scenes from './scenes';
+import { GameSize } from '@constants';
 
 /**
  * https://rexrainbow.github.io/phaser3-rex-notes/docs/site/game/
  */
 new Phaser.Game({
-  width: 800, // 1024
-  height: 600, // 768
+  width: GameSize.WIDTH, // 1024
+  height: GameSize.HEIGHT, // 768
   title: 'Phaser RPG',
   url: import.meta.env.VITE_APP_HOMEPAGE,
   version: import.meta.env.VITE_APP_VERSION,

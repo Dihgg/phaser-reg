@@ -17,7 +17,9 @@
   "homepage": "https://remarkablegames.org/phaser-rpg/",
   "dependencies": {
     "phaser": "3.87.0",
-    "phaser-jsx": "0.11.0"
+    "phaser-jsx": "0.11.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "19.6.0",
@@ -26,6 +28,8 @@
     "@eslint/eslintrc": "3.2.0",
     "@eslint/js": "9.16.0",
     "@types/gtag.js": "0.0.20",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
     "@typescript-eslint/eslint-plugin": "8.17.0",
     "@typescript-eslint/parser": "8.17.0",
     "eslint": "9.16.0",
@@ -33,6 +37,7 @@
     "eslint-plugin-simple-import-sort": "12.1.1",
     "husky": "9.1.7",
     "lint-staged": "15.2.10",
+    "phaser-react-ui": "^1.15.1",
     "prettier": "3.4.2",
     "typescript": "5.7.2",
     "vite": "6.0.3",
