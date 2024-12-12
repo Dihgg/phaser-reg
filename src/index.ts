@@ -1,3 +1,5 @@
+import './style.css';
+
 import Phaser, { Game } from 'phaser';
 
 import * as scenes from './scenes';

@@ -1,10 +1,14 @@
 .overlay {
-    background: blue;
-    height: 100%;
-    opacity: 0.7;
-    margin: 0 auto;
+    @apply
+    bg-blue-500
+    h-full
+    opacity-70
+    mx-auto
+    ;
 
     button {
-        pointer-events: auto;
+        @apply
+        pointer-events-auto
+        ;
     }
 }

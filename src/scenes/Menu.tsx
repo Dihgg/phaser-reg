@@ -4,7 +4,8 @@ import { GameSize, key } from '@constants';
 import { Scene } from 'phaser';
 import { Interface, useCurrentScene } from 'phaser-react-ui';
 import { FunctionComponent } from 'react';
-const TestUI: FunctionComponent = () => {
+
+const MenuUI: FunctionComponent = () => {
   const menu = useCurrentScene<Menu>();
   return (
     <div
@@ -15,17 +16,13 @@ const TestUI: FunctionComponent = () => {
     >
       Test!
       <button
-        onClick={() => {
-          menu.exit();
-          //menu.scene.stop();
-        }}
+        onClick={() => menu.exit()}
       >
         Resume!
       </button>
     </div>
   );
 };
-TestUI.displayName = 'TestUI';
 
 export class Menu extends Scene {
   private ui!: Interface;
@@ -35,7 +32,7 @@ export class Menu extends Scene {
 
   create() {
     this.ui = new Interface(this);
-    this.ui.render(TestUI);
+    this.ui.render(MenuUI);
 
     ['keydown-ESC', 'keydown-X'].forEach((event) => {
       this.input.keyboard!.on(event, this.exit, this);
