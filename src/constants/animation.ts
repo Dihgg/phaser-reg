@@ -1,4 +1,4 @@
-export enum AnimationKeys {
+export enum Directions {
   Left = 'left',
   Right = 'right',
   Up = 'up',

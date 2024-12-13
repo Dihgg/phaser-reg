@@ -1,43 +1,22 @@
 import * as assets from '@assets';
 
-const atlas = {
-  player: 'player',
-  ninja: 'ninja',
-} as const;
-
-const image = {
-  spaceman: 'spaceman',
-  tuxemon: 'tuxemon',
-  forest: 'forest',
+const atlas: Record<string, AtlasType> = {
+  ninja: assets.sprites.Sprites.ninja,
 } as const;
 
 const maps: Record<string, MapType> = {
-  tuxemon: {
-    name: 'tuxemon',
-    tileset: assets.tilesets.tuxemon,
-    tilemap: assets.tilemaps.tuxemon,
-  },
-  forest: {
-    name: 'forest',
-    tileset: assets.tilesets.tuxemon,
-    tilemap: assets.tilemaps.forest,
-  },
+  city: assets.maps.Maps.city,
+  forest: assets.maps.Maps.forest,
 } as const;
 
-const scene = {
+const scene: Record<string, string> = {
   boot: 'boot',
   overworld: 'overworld',
   menu: 'menu',
 } as const;
 
-const tilemap = {
-  tuxemon: 'tuxemon',
-} as const;
-
 export const key = {
   atlas,
-  image,
   scene,
-  tilemap,
   maps,
 } as const;

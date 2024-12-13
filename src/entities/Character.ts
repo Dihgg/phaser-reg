@@ -1,5 +1,5 @@
 import Sprite = Phaser.Physics.Arcade.Sprite;
-import { AnimationKeys } from '@constants';
+import { Directions } from '@constants';
 import { Scene } from 'phaser';
 
 type CharacterProps = {
@@ -8,41 +8,45 @@ type CharacterProps = {
   y: number;
   width: number;
   height: number;
-  frame: string;
   texture: string;
+  velocity?: number;
 };
 
 export class Character extends Sprite {
   private readonly textureKey: string;
-  selector!: Phaser.Physics.Arcade.StaticBody;
+  private velocity: number;
   body!: Phaser.Physics.Arcade.Body;
 
-  constructor({ scene, x, y, width, height, texture, frame }: CharacterProps) {
-    super(scene, x, y, texture, frame);
+  constructor({
+    scene,
+    x,
+    y,
+    width,
+    height,
+    texture,
+    velocity = 175,
+  }: CharacterProps) {
+    super(scene, x, y, texture);
 
-    this.textureKey = texture;
     this.width = width;
     this.height = height;
+
+    this.textureKey = texture;
+    this.velocity = velocity;
 
     scene.add.existing(this);
     scene.physics.world.enable(this);
     this.setCollideWorldBounds(true);
 
     this.createWalkingAnimations();
-    this.selector = scene.physics.add.staticBody(
-      x - width / 2,
-      y + height * 2,
-      width,
-      height,
-    );
   }
 
   private createWalkingAnimations() {
     for (const animation of [
-      AnimationKeys.Up,
-      AnimationKeys.Down,
-      AnimationKeys.Left,
-      AnimationKeys.Right,
+      Directions.Up,
+      Directions.Down,
+      Directions.Left,
+      Directions.Right,
     ]) {
       const { anims } = this.scene;
       if (!anims.exists(animation)) {
@@ -51,7 +55,7 @@ export class Character extends Sprite {
           frames: anims.generateFrameNames(this.textureKey, {
             prefix: `walk-${animation}.`,
             start: 0,
-            end: 3,
+            end: 2,
             zeroPad: 3,
           }),
           frameRate: 10,
@@ -61,28 +65,29 @@ export class Character extends Sprite {
     }
   }
 
-  public move(animation: AnimationKeys) {
-    const { body, selector, width, height } = this;
+  public move(animation?: Directions) {
+    const { anims, body, velocity } = this;
+    body.setVelocity(0);
+
     switch (animation) {
-      case AnimationKeys.Left:
-        selector.x = body.x - width;
-        selector.y = body.y + height;
+      case Directions.Up:
+        body.setVelocityY(-velocity);
         break;
-
-      case AnimationKeys.Right:
-        selector.x = body.x + width;
-        selector.y = body.y + height;
+      case Directions.Down:
+        body.setVelocityY(velocity);
         break;
-
-      case AnimationKeys.Up:
-        selector.x = body.x + width;
-        selector.y = body.y - height;
+      case Directions.Left:
+        body.setVelocityX(-velocity);
         break;
-
-      case AnimationKeys.Down:
-        selector.x = body.x + width;
-        selector.y = body.y + height;
+      case Directions.Right:
+        body.setVelocityX(velocity);
         break;
+    }
+    body.velocity.normalize().scale(velocity);
+    if (animation) {
+      anims.play(animation, true);
+    } else {
+      anims.stop();
     }
   }
 

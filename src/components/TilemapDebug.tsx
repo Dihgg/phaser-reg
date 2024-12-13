@@ -1,6 +1,5 @@
+import { Depth, isProduction } from '@constants';
 import { Graphics, useScene } from 'phaser-jsx';
-
-import { Depth, isProduction } from '../constants';
 
 interface Props {
   tilemapLayer: Phaser.Tilemaps.TilemapLayer;
@@ -33,7 +32,7 @@ export function TilemapDebug(props: Props) {
     <Graphics
       alpha={0}
       depth={Depth.AboveWorld}
-      ref={(gameObject: never) => {
+      ref={(gameObject) => {
         graphics = gameObject;
         renderDebug();
       }}

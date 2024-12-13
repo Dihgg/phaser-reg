@@ -81,7 +81,11 @@ export class OverWorld extends Phaser.Scene implements Map {
       ({ name }) => name === TilemapObject.SpawnPoint,
     )!;
 
-    this.player = new Player(this, spawnPoint.x!, spawnPoint.y!);
+    this.player = new Player({
+      scene: this,
+      x: spawnPoint.x!,
+      y: spawnPoint.y!,
+    });
     this.addPlayerExitInteraction();
 
     this.physics.add.collider(this.player, this.worldLayer);
@@ -102,7 +106,7 @@ export class OverWorld extends Phaser.Scene implements Map {
       );
       this.physics.add.overlap(
         exitBody as unknown as ArcadeColliderType,
-        this.player.selector as unknown as ArcadeColliderType,
+        this.player.body as unknown as ArcadeColliderType,
         () => {
           const properties = exit.properties.reduce(
             (
