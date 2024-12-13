@@ -20,7 +20,8 @@
     "paths": {
       "@assets": ["./src/assets/index"],
       "@constants": ["./src/constants/index"],
-      "@components": ["./src/components/index"]
+      "@components": ["./src/components/index"],
+      "@entities": ["./src/entities/index"],
     }
   },
   "include": ["src"]

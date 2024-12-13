@@ -1,13 +1,29 @@
 {
-    "activeFile": "tilesets/tuxemon-sample-32px-extruded.tsj",
+    "activeFile": "",
     "expandedProjectPaths": [
-        "tilemaps",
         ".",
+        "tilemaps",
         "tilesets"
     ],
     "fileStates": {
         "": {
             "scaleInDock": 1
+        },
+        "/Users/diego.lopes/Downloads/tiny-creatures/Tiled/creatures.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "/Users/diego.lopes/Downloads/tiny-creatures/Tiled/dungeon.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "/Users/diego.lopes/Downloads/tiny-creatures/Tiled/sampleMap.tmx": {
+            "scale": 1.79,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 256.145251396648,
+                "y": 160.0558659217877
+            }
         },
         "tilemaps/forest.json": {
             "scale": 0.6672265625,
@@ -56,10 +72,12 @@
         "/Users/diego.lopes/Projects/phaser-rpg/src/assets/maps/game.world"
     ],
     "openFiles": [
-        "tilesets/tuxemon-sample-32px-extruded.tsj"
     ],
     "project": "game.tiled-project",
     "recentFiles": [
+        "/Users/diego.lopes/Downloads/tiny-creatures/Tiled/sampleMap.tmx",
+        "/Users/diego.lopes/Downloads/tiny-creatures/Tiled/creatures.tsx",
+        "/Users/diego.lopes/Downloads/tiny-creatures/Tiled/dungeon.tsx",
         "tilesets/tuxemon-sample-32px-extruded.tsj",
         "tilemaps/forest.tmx",
         "tilemaps/tuxemon-town.json",

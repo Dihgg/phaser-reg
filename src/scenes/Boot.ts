@@ -2,6 +2,7 @@ import * as assets from '@assets';
 import { key } from '@constants';
 import { Scene } from 'phaser';
 
+import { Sprites } from '../assets/sprites';
 
 export class Boot extends Scene {
   constructor() {
@@ -9,11 +10,19 @@ export class Boot extends Scene {
   }
 
   preload() {
-    this.load.spritesheet(key.image.spaceman, assets.sprites.spaceman, {
+    /* this.load.spritesheet(key.image.spaceman, assets.sprites.spaceman, {
       frameWidth: 16,
       frameHeight: 16,
-    });
+    }); */
     this.load.atlas(key.atlas.player, assets.atlas.image, assets.atlas.data);
+
+    // TODO: make this better
+    this.load.atlas(key.atlas.ninja, Sprites.ninja.image, Sprites.ninja.data);
+    /* this.load.atlas(
+      key.atlas.ninja,
+      assets.sprites.ninjaImg,
+      assets.sprites.ninjaData,
+    );*/
 
     for (const { name, tileset, tilemap } of Object.values(key.maps)) {
       this.load.image(name, tileset);

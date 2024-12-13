@@ -1,9 +1,8 @@
+import { TilemapDebug } from '@components';
+import { Depth, key, TilemapLayer, TilemapObject } from '@constants';
+import { Player } from '@entities';
 import Phaser from 'phaser';
 import { render } from 'phaser-jsx';
-
-import { TilemapDebug } from '../components';
-import { Depth, key, TilemapLayer, TilemapObject } from '../constants';
-import { Player } from '../sprites';
 import ArcadeColliderType = Phaser.Types.Physics.Arcade.ArcadeColliderType;
 
 interface Map {

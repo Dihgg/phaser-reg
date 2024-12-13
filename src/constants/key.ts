@@ -2,6 +2,7 @@ import * as assets from '@assets';
 
 const atlas = {
   player: 'player',
+  ninja: 'ninja',
 } as const;
 
 const image = {
