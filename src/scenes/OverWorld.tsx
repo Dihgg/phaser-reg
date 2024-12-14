@@ -1,8 +1,10 @@
 import { key, TilemapLayers, TilemapObjects } from '@constants';
 import { Player } from '@entities';
+import { getTilePositionByObject } from '@utils';
 import { GridEngine } from 'grid-engine';
 import { Scene } from 'phaser';
 import Tilemap = Phaser.Tilemaps.Tilemap;
+import ArcadeColliderType = Phaser.Types.Physics.Arcade.ArcadeColliderType;
 
 interface Map {
   map: MapType;
@@ -39,6 +41,8 @@ export class OverWorld extends Scene implements Map {
     this.creteGridEngine();
     this.boundCamera();
     this.createPlayer();
+    this.addPlayerExitInteraction();
+    this.addPauseMenu();
   }
 
   /**
@@ -46,23 +50,6 @@ export class OverWorld extends Scene implements Map {
    */
   update() {
     this.player.update();
-  }
-
-  /**
-   * Gets the tile coordinates of an object in the tilemap.
-   * @param {Tilemap} tilemap - The tilemap.
-   * @param {string} layer - The layer name.
-   * @param {string} object - The object name.
-   * @returns {Phaser.Math.Vector2} The tile coordinates.
-   * @private
-   */
-  private getObjectTileXY(
-    tilemap: Tilemap,
-    layer: string,
-    object: string,
-  ): Phaser.Math.Vector2 {
-    const { x, y } = tilemap.findObject(layer, ({ name }) => name === object)!;
-    return tilemap.worldToTileXY(x!, y!)!;
   }
 
   /**
@@ -109,7 +96,7 @@ export class OverWorld extends Scene implements Map {
    * @private
    */
   private createPlayer() {
-    const spawnTile = this.getObjectTileXY(
+    const spawnTile = getTilePositionByObject(
       this.tilemap,
       TilemapLayers.Objects,
       TilemapObjects.SpawnPoint,
@@ -126,5 +113,51 @@ export class OverWorld extends Scene implements Map {
       textureName: 'characters',
       walkingAnimationMapping: 6,
     });
+  }
+
+  /**
+   * Adds the player exit interaction.
+   * @private
+   */
+  private addPlayerExitInteraction() {
+    const exits = this.tilemap.filterObjects(
+      TilemapLayers.Objects,
+      ({ name }) => name === TilemapObjects.Exit,
+    )!;
+    exits.forEach((exit) => {
+      const exitBody = this.physics.add.staticBody(
+        exit.x!,
+        exit.y!,
+        exit.width,
+        exit.height,
+      );
+      this.physics.add.overlap(
+        exitBody as unknown as ArcadeColliderType,
+        this.player.body as unknown as ArcadeColliderType,
+        () => {
+          // extract the properties from exit object
+          const properties = exit.properties.reduce(
+            (
+              acc: Record<string, string>,
+              prop: { name: string; value: string },
+            ) => {
+              acc[prop.name] = prop.value;
+              return acc;
+            },
+            {},
+          );
+          this.scene.restart({ map: key.maps[properties.map] });
+        },
+      );
+    });
+  }
+
+  private addPauseMenu() {
+    const handlePause = () => {
+      this.scene.launch(key.scene.menu);
+      this.scene.pause();
+    };
+    this.input.keyboard!.on('keydown-ESC', handlePause, this);
+    this.input.keyboard!.on('keydown-X', handlePause, this);
   }
 }

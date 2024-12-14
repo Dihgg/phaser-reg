@@ -39,6 +39,7 @@ export class Player extends Character {
     this.cursors = this.createCursorKeys();
     this.scene.cameras.main.startFollow(this, true);
     this.scene.cameras.main.setFollowOffset(-this.width, -this.height);
+    this.scene.physics.add.existing(this);
   }
 
   /**
@@ -55,7 +56,7 @@ export class Player extends Character {
    */
   private createCursorKeys(): Cursors {
     return this.scene.input.keyboard!.addKeys(
-      'w,a,s,d,up,left,down,right,space,z,x',
+      'w,a,s,d,up,left,down,right,space,z',
     ) as Cursors;
   }
 
