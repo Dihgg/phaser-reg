@@ -1,4 +1,10 @@
+import { characters } from './characters';
 import { ninja } from './ninja';
-export const Sprites: Record<string, AtlasType> = {
+
+export const Atlas: Record<string, AtlasType> = {
   ninja,
+};
+
+export const Sprites: Record<string, SpritesheetType> = {
+  characters,
 };

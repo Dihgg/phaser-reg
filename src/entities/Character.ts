@@ -1,98 +1,92 @@
-import Sprite = Phaser.Physics.Arcade.Sprite;
-import { Directions } from '@constants';
+import Sprite = Phaser.GameObjects.Sprite;
+import { Direction, GridEngine, MoveToConfig, Position } from 'grid-engine';
 import { Scene } from 'phaser';
 
-type CharacterProps = {
-  scene: Scene;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  texture: string;
-  velocity?: number;
+export type CharacterProps = {
+  scene: Scene; // The scene to which this character belongs
+  id: string; // The unique identifier for the character
+  textureName: string; // The texture key for the character's sprite
+  gridEngine: GridEngine; // The GridEngine instance for character movement
+  x?: number; // The initial x-coordinate of the character (default is 0)
+  y?: number; // The initial y-coordinate of the character (default is 0)
+  scale?: number; // The scale of the character's sprite (default is 1)
+  speed?: number; // The movement speed of the character (default is 6)
+  walkingAnimationMapping?: number; // The walking animation mapping for the character (default is 1)
 };
 
+/**
+ * Represents a character in the game.
+ * @extends Phaser.GameObjects.Sprite
+ */
 export class Character extends Sprite {
-  private readonly textureKey: string;
-  private velocity: number;
-  body!: Phaser.Physics.Arcade.Body;
+  /**
+   * The unique identifier for the character.
+   * @type {string}
+   * @private
+   */
+  private readonly id: string;
 
-  constructor({
-    scene,
-    x,
-    y,
-    width,
-    height,
-    texture,
-    velocity = 175,
-  }: CharacterProps) {
-    super(scene, x, y, texture);
+  /**
+   * The GridEngine instance for character movement.
+   * @type {GridEngine}
+   * @private
+   */
+  private gridEngine: CharacterProps['gridEngine'];
 
-    this.width = width;
-    this.height = height;
+  /**
+   * Creates an instance of Character.
+   * @param {CharacterProps} props - The properties for the character.
+   * @throws {ReferenceError} If GridEngine is not initialized.
+   */
+  constructor(props: CharacterProps) {
+    const {
+      scene,
+      id,
+      textureName,
+      gridEngine,
+      x = 0,
+      y = 0,
+      scale = 1,
+      speed = 6,
+      walkingAnimationMapping = 1,
+    } = props;
 
-    this.textureKey = texture;
-    this.velocity = velocity;
+    super(scene, x, y, textureName);
+    this.id = id;
+    this.scale = scale;
+    this.gridEngine = gridEngine;
 
     scene.add.existing(this);
-    scene.physics.world.enable(this);
-    this.setCollideWorldBounds(true);
 
-    this.createWalkingAnimations();
-  }
-
-  private createWalkingAnimations() {
-    for (const animation of [
-      Directions.Up,
-      Directions.Down,
-      Directions.Left,
-      Directions.Right,
-    ]) {
-      const { anims } = this.scene;
-      if (!anims.exists(animation)) {
-        anims.create({
-          key: animation,
-          frames: anims.generateFrameNames(this.textureKey, {
-            prefix: `walk-${animation}.`,
-            start: 0,
-            end: 2,
-            zeroPad: 3,
-          }),
-          frameRate: 10,
-          repeat: -1,
-        });
-      }
+    try {
+      this.gridEngine.addCharacter({
+        id,
+        sprite: this,
+        startPosition: { x, y },
+        walkingAnimationMapping,
+        speed,
+      });
+    } catch (e) {
+      throw new ReferenceError(
+        'GridEngine not initialized! Characters must be created AFTER gridEngine.create',
+      );
     }
   }
 
-  public move(animation?: Directions) {
-    const { anims, body, velocity } = this;
-    body.setVelocity(0);
-
-    switch (animation) {
-      case Directions.Up:
-        body.setVelocityY(-velocity);
-        break;
-      case Directions.Down:
-        body.setVelocityY(velocity);
-        break;
-      case Directions.Left:
-        body.setVelocityX(-velocity);
-        break;
-      case Directions.Right:
-        body.setVelocityX(velocity);
-        break;
-    }
-    body.velocity.normalize().scale(velocity);
-    if (animation) {
-      anims.play(animation, true);
-    } else {
-      anims.stop();
-    }
+  /**
+   * Moves the character in the specified direction.
+   * @param {Direction} direction - The direction to move the character.
+   */
+  public move(direction: Direction) {
+    this.gridEngine.move(this.id, direction);
   }
 
-  update() {
-    // const {anims, body} = this;
-    // const prevVelocity = body.velocity.clone();
+  /**
+   * Moves the character to the specified position.
+   * @param {Position} position - The target position to move the character to.
+   * @param {MoveToConfig} [config] - Optional configuration for the moveTo action.
+   */
+  public moveTo(position: Position, config?: MoveToConfig) {
+    this.gridEngine.moveTo(this.id, position, config);
   }
 }

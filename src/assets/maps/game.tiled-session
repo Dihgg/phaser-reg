@@ -7,7 +7,8 @@
     ],
     "fileStates": {
         "": {
-            "scaleInDock": 1
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
         },
         "/Users/diego.lopes/Downloads/tiny-creatures/Tiled/creatures.tsx": {
             "scaleInDock": 1,
@@ -59,6 +60,34 @@
         "tilemaps/tuxemon-town.json#tuxemon-sample-32px-extruded": {
             "scaleInDock": 1
         },
+        "tilemaps/tuxemon-town.tmx": {
+            "expandedObjectLayers": [
+                4
+            ],
+            "scale": 0.6236,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 632.6170622193713,
+                "y": 648.6529826812059
+            }
+        },
+        "tilemaps/tuxemon-town.tmx#Collisions": {
+            "scaleInEditor": 1
+        },
+        "tilemaps/tuxemon-town.tmx#collisions": {
+            "scaleInDock": 1.5
+        },
+        "tilemaps/tuxemon-town.tmx#tuxemon-sample-32px-extruded": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "tilesets/Collision.tsj": {
+            "scaleInDock": 2,
+            "scaleInEditor": 6.4832
+        },
+        "tilesets/collisions.tsj": {
+            "scaleInDock": 1
+        },
         "tilesets/tuxemon-sample-32px-extruded.tsj": {
             "scaleInDock": 1,
             "scaleInEditor": 1
@@ -68,13 +97,17 @@
             "scaleInEditor": 1
         }
     },
+    "last.externalTilesetPath": "/Users/diego.lopes/Projects/phaser-rpg/src/assets/maps/tilesets",
+    "last.imagePath": "/Users/diego.lopes/Projects/phaser-rpg/src/assets/maps/tilesets",
     "loadedWorlds": [
         "/Users/diego.lopes/Projects/phaser-rpg/src/assets/maps/game.world"
     ],
     "openFiles": [
     ],
     "project": "game.tiled-project",
+    "property.type": "bool",
     "recentFiles": [
+        "tilesets/Collision.tsj",
         "/Users/diego.lopes/Downloads/tiny-creatures/Tiled/sampleMap.tmx",
         "/Users/diego.lopes/Downloads/tiny-creatures/Tiled/creatures.tsx",
         "/Users/diego.lopes/Downloads/tiny-creatures/Tiled/dungeon.tsx",
@@ -84,5 +117,11 @@
         "tilesets/tuxemon-sample-32px-extruded.tsx",
         "tilemaps/forest.json"
     ],
-    "tileset.lastUsedFormat": "json"
+    "tileset.embedInMap": true,
+    "tileset.lastUsedFilter": "JSON tileset files (*.tsj *.json)",
+    "tileset.lastUsedFormat": "json",
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    }
 }

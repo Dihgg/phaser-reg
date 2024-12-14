@@ -1,102 +1,129 @@
-import { TilemapDebug } from '@components';
-import { Depth, key, TilemapLayer, TilemapObject } from '@constants';
+import { key, TilemapLayers, TilemapObjects } from '@constants';
 import { Player } from '@entities';
-import Phaser from 'phaser';
-import { render } from 'phaser-jsx';
+import { getTilePositionByObject } from '@utils';
+import { GridEngine } from 'grid-engine';
+import { Scene } from 'phaser';
+import Tilemap = Phaser.Tilemaps.Tilemap;
 import ArcadeColliderType = Phaser.Types.Physics.Arcade.ArcadeColliderType;
 
 interface Map {
   map: MapType;
-  loadMap: () => void;
 }
 
-export class OverWorld extends Phaser.Scene implements Map {
-  private player!: Player;
-  private tilemap!: Phaser.Tilemaps.Tilemap;
-  private worldLayer!: Phaser.Tilemaps.TilemapLayer;
+/**
+ * Represents the OverWorld scene in the game.
+ * @extends Phaser.Scene
+ * @implements Map
+ */
+export class OverWorld extends Scene implements Map {
   map!: MapType;
+  tilemap!: Tilemap;
+  gridEngine!: GridEngine;
+  player!: Player;
 
   constructor() {
     super(key.scene.overworld);
   }
 
+  /**
+   * Initializes the scene with the given data.
+   * @param {{ map: MapType }} data - The data to initialize the scene with.
+   */
   init(data: { map: MapType }) {
     this.map = data.map;
   }
 
-  loadMap() {
-    this.tilemap = this.make.tilemap({ key: this.map.name });
+  /**
+   * Creates the scene.
+   */
+  create() {
+    this.loadTilemap();
+    this.creteGridEngine();
+    this.boundCamera();
+    this.createPlayer();
+    this.addPlayerExitInteraction();
+    this.addPauseMenu();
+  }
 
+  /**
+   * Updates the scene.
+   */
+  update() {
+    this.player.update();
+  }
+
+  /**
+   * Loads the tilemap.
+   * @private
+   */
+  private loadTilemap() {
+    this.tilemap = this.make.tilemap({ key: this.map.name });
     const tileset = this.tilemap.addTilesetImage(
       this.map.tileset.match(/([^/]+)(?=\.\w+$)/)![0],
       this.map.name,
     )!;
 
-    this.tilemap.createLayer(TilemapLayer.BelowPlayer, tileset, 0, 0);
-    this.worldLayer = this.tilemap.createLayer(
-      TilemapLayer.World,
-      tileset,
-      0,
-      0,
-    )!;
-    const aboveLayer = this.tilemap.createLayer(
-      TilemapLayer.AbovePlayer,
-      tileset,
-      0,
-      0,
-    )!;
-
-    this.worldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.bounds.width = this.worldLayer.width;
-    this.physics.world.bounds.height = this.worldLayer.height;
-
-    aboveLayer.setDepth(Depth.AbovePlayer);
+    for (const { name } of this.tilemap.layers) {
+      this.tilemap.createLayer(name, tileset, 0, 0);
+    }
   }
 
-  create() {
-    this.loadMap();
-    this.addPlayer();
+  /**
+   * Creates the GridEngine instance.
+   * @private
+   */
+  private creteGridEngine() {
+    this.gridEngine.create(this.tilemap, {
+      characters: [],
+    });
+  }
 
+  /**
+   * Sets the camera bounds.
+   * @private
+   */
+  private boundCamera() {
     this.cameras.main.setBounds(
       0,
       0,
       this.tilemap.widthInPixels,
       this.tilemap.heightInPixels,
     );
-
-    render(<TilemapDebug tilemapLayer={this.worldLayer} />, this);
-
-    this.input.keyboard!.on('keydown-ESC', this.handlePause, this);
-    this.input.keyboard!.on('keydown-X', this.handlePause, this);
   }
 
-  private handlePause() {
-    this.scene.pause(key.scene.overworld);
-    this.scene.launch(key.scene.menu);
-  }
-
-  private addPlayer() {
-    const spawnPoint = this.tilemap.findObject(
-      TilemapLayer.Objects,
-      ({ name }) => name === TilemapObject.SpawnPoint,
-    )!;
+  /**
+   * Creates the player character.
+   * @private
+   */
+  private createPlayer() {
+    const spawnTile = getTilePositionByObject(
+      this.tilemap,
+      TilemapLayers.Objects,
+      TilemapObjects.SpawnPoint,
+    );
 
     this.player = new Player({
       scene: this,
-      x: spawnPoint.x!,
-      y: spawnPoint.y!,
+      id: 'player',
+      scale: 0.75,
+      speed: 10,
+      x: spawnTile!.x,
+      y: spawnTile!.y,
+      gridEngine: this.gridEngine,
+      textureName: 'characters',
+      walkingAnimationMapping: 6,
     });
-    this.addPlayerExitInteraction();
-
-    this.physics.add.collider(this.player, this.worldLayer);
   }
 
+  /**
+   * Adds the player exit interaction.
+   * @private
+   */
   private addPlayerExitInteraction() {
     const exits = this.tilemap.filterObjects(
-      TilemapLayer.Objects,
-      ({ name }) => name == TilemapObject.Exit,
+      TilemapLayers.Objects,
+      ({ name }) => name === TilemapObjects.Exit,
     )!;
-
     exits.forEach((exit) => {
       const exitBody = this.physics.add.staticBody(
         exit.x!,
@@ -108,13 +135,14 @@ export class OverWorld extends Phaser.Scene implements Map {
         exitBody as unknown as ArcadeColliderType,
         this.player.body as unknown as ArcadeColliderType,
         () => {
+          // extract the properties from exit object
           const properties = exit.properties.reduce(
             (
-              acc: Record<string, 'map' | string>,
+              acc: Record<string, string>,
               prop: { name: string; value: string },
             ) => {
               acc[prop.name] = prop.value;
-              return { ...acc };
+              return acc;
             },
             {},
           );
@@ -124,7 +152,12 @@ export class OverWorld extends Phaser.Scene implements Map {
     });
   }
 
-  update() {
-    this.player.update();
+  private addPauseMenu() {
+    const handlePause = () => {
+      this.scene.launch(key.scene.menu);
+      this.scene.pause();
+    };
+    this.input.keyboard!.on('keydown-ESC', handlePause, this);
+    this.input.keyboard!.on('keydown-X', handlePause, this);
   }
 }

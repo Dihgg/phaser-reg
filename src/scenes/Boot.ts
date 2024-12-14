@@ -12,6 +12,11 @@ export class Boot extends Scene {
       this.load.atlas(name, image, data);
     }
 
+    // Load spritesheets
+    for (const { name, image, data } of Object.values(key.sprites)) {
+      this.load.spritesheet(name, image, data);
+    }
+
     // Load Maps
     for (const { name, tileset, tilemap } of Object.values(key.maps)) {
       this.load.image(name, tileset);

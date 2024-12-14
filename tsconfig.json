@@ -22,6 +22,7 @@
       "@constants": ["./src/constants/index"],
       "@components": ["./src/components/index"],
       "@entities": ["./src/entities/index"],
+      "@utils": ["./src/utils/index"],
     }
   },
   "include": ["src"]
