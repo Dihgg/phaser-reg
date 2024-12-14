@@ -1,9 +1,10 @@
 import './style.css';
 
+import { GameSize } from '@constants';
+import { GridEngine } from 'grid-engine';
 import Phaser, { Game } from 'phaser';
 
 import * as scenes from './scenes';
-import { GameSize } from '@constants';
 
 /**
  * https://rexrainbow.github.io/phaser3-rex-notes/docs/site/game/
@@ -28,4 +29,13 @@ new Phaser.Game({
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   pixelArt: true,
+  plugins: {
+    scene: [
+      {
+        key: 'gridEngine',
+        plugin: GridEngine,
+        mapping: 'gridEngine',
+      },
+    ],
+  },
 });

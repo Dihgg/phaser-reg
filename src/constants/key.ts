@@ -1,7 +1,11 @@
 import * as assets from '@assets';
 
 const atlas: Record<string, AtlasType> = {
-  ninja: assets.sprites.Sprites.ninja,
+  ninja: assets.sprites.Atlas.ninja,
+} as const;
+
+const sprites: Record<string, SpritesheetType> = {
+  characters: assets.sprites.Sprites.characters
 } as const;
 
 const maps: Record<string, MapType> = {
@@ -17,6 +21,7 @@ const scene: Record<string, string> = {
 
 export const key = {
   atlas,
+  sprites,
   scene,
   maps,
 } as const;
