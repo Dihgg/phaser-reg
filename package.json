@@ -2,7 +2,7 @@
   "name": "phaser-rpg",
   "version": "1.0.0-alpha",
   "description": "A template for building Phaser RPG games.",
-  "author": "Mark <mark@remarkablemark.org>",
+  "author": "Diego Lopes <dihgg@dihgg.com>",
   "scripts": {
     "build": "npm run clean && vite build",
     "bundle": "scripts/bundle.sh",
@@ -14,7 +14,7 @@
     "preview": "vite preview",
     "start": "vite --open"
   },
-  "homepage": "https://remarkablegames.org/phaser-rpg/",
+  "homepage": "https://dihgg.com/",
   "dependencies": {
     "grid-engine": "^2.46.0",
     "phaser": "3.87.0",
