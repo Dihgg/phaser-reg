@@ -1,5 +1,11 @@
 import Sprite = Phaser.GameObjects.Sprite;
-import { Direction, GridEngine, MoveToConfig, Position } from 'grid-engine';
+import {
+  Direction,
+  FollowOptions,
+  GridEngine,
+  MoveToConfig,
+  Position,
+} from 'grid-engine';
 import { Scene } from 'phaser';
 
 export type CharacterProps = {
@@ -56,7 +62,8 @@ export class Character extends Sprite {
     this.scale = scale;
     this.gridEngine = gridEngine;
 
-    scene.add.existing(this);
+    this.scene.add.existing(this);
+    this.scene.physics.add.existing(this);
 
     try {
       this.gridEngine.addCharacter({
@@ -68,7 +75,7 @@ export class Character extends Sprite {
       });
     } catch (e) {
       throw new ReferenceError(
-        'GridEngine not initialized! Characters must be created AFTER gridEngine.create',
+        `GridEngine not initialized! Characters must be created AFTER gridEngine.create\n${e}`,
       );
     }
   }
@@ -88,5 +95,13 @@ export class Character extends Sprite {
    */
   public moveTo(position: Position, config?: MoveToConfig) {
     this.gridEngine.moveTo(this.id, position, config);
+  }
+
+  public moveRandomly(delay?: number, radius?: number) {
+    this.gridEngine.moveRandomly(this.id, delay, radius);
+  }
+
+  public follows(followId: string, options?: FollowOptions) {
+    this.gridEngine.follow(this.id, followId, options);
   }
 }

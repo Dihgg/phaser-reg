@@ -1,6 +1,6 @@
 import { key, TilemapLayers, TilemapObjects } from '@constants';
-import { Player } from '@entities';
-import { getTilePositionByObject } from '@utils';
+import { EnemyFactory, Player } from '@entities';
+import { TilemapUtils } from '@utils';
 import { GridEngine } from 'grid-engine';
 import { Scene } from 'phaser';
 import Tilemap = Phaser.Tilemaps.Tilemap;
@@ -41,6 +41,7 @@ export class OverWorld extends Scene implements Map {
     this.creteGridEngine();
     this.boundCamera();
     this.createPlayer();
+    this.createEnemies();
     this.addPlayerExitInteraction();
     this.addPauseMenu();
   }
@@ -96,7 +97,7 @@ export class OverWorld extends Scene implements Map {
    * @private
    */
   private createPlayer() {
-    const spawnTile = getTilePositionByObject(
+    const spawnTile = TilemapUtils.getTilePositionByObject(
       this.tilemap,
       TilemapLayers.Objects,
       TilemapObjects.SpawnPoint,
@@ -115,6 +116,36 @@ export class OverWorld extends Scene implements Map {
     });
   }
 
+  private createEnemies() {
+    const enemyFactory = new EnemyFactory({
+      gridEngine: this.gridEngine,
+      scene: this,
+      textureName: 'characters',
+    });
+    const enemies = this.tilemap.filterObjects(
+      TilemapLayers.Objects,
+      ({ name }) => name === TilemapObjects.Enemy,
+    )!;
+    enemies.forEach((enemy) => {
+      const properties = TilemapUtils.extractProperties(enemy.properties);
+      const enemyType = properties['enemy_type'];
+      console.log('enemy', enemy, enemyType);
+      const spawnTile = TilemapUtils.getTilePositionByXY(this.tilemap, {
+        x: enemy.x!,
+        y: enemy.y!,
+      });
+      const newEnemy = enemyFactory.createEnemy({
+        enemyType,
+        x: spawnTile.x,
+        y: spawnTile.y,
+        scale: 0.75,
+        speed: 8,
+        movementType: 'follow',
+      });
+      console.log('newEnemy', newEnemy, spawnTile);
+      // newEnemy.setPosition(spawnTile!.x, spawnTile!.y);
+    });
+  }
   /**
    * Adds the player exit interaction.
    * @private
@@ -136,16 +167,7 @@ export class OverWorld extends Scene implements Map {
         this.player.body as unknown as ArcadeColliderType,
         () => {
           // extract the properties from exit object
-          const properties = exit.properties.reduce(
-            (
-              acc: Record<string, string>,
-              prop: { name: string; value: string },
-            ) => {
-              acc[prop.name] = prop.value;
-              return acc;
-            },
-            {},
-          );
+          const properties = TilemapUtils.extractProperties(exit.properties);
           this.scene.restart({ map: key.maps[properties.map] });
         },
       );

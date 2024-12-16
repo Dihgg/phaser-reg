@@ -39,7 +39,7 @@ export class Player extends Character {
     this.cursors = this.createCursorKeys();
     this.scene.cameras.main.startFollow(this, true);
     this.scene.cameras.main.setFollowOffset(-this.width, -this.height);
-    this.scene.physics.add.existing(this);
+    // this.scene.physics.add.existing(this);
   }
 
   /**

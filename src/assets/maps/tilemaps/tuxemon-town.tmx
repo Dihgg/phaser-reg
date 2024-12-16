@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="285">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="287">
  <editorsettings>
   <export target="tuxemon-town.json" format="json"/>
  </editorsettings>
@@ -345,6 +345,18 @@
    <properties>
     <property name="map" value="forest"/>
    </properties>
+  </object>
+  <object id="285" name="Enemy" x="698.413" y="370.189">
+   <properties>
+    <property name="enemy_type" value="thief"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="286" name="Enemy" x="542.544" y="935.215">
+   <properties>
+    <property name="enemy_type" value="goblin"/>
+   </properties>
+   <point/>
   </object>
  </objectgroup>
 </map>

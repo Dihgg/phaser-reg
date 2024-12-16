@@ -262,6 +262,42 @@
                  "width":314.943,
                  "x":194.857,
                  "y":1194.58
+                }, 
+                {
+                 "height":0,
+                 "id":285,
+                 "name":"Enemy",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"enemy_type",
+                         "type":"string",
+                         "value":"thief"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":698.413441835958,
+                 "y":370.189098998888
+                }, 
+                {
+                 "height":0,
+                 "id":286,
+                 "name":"Enemy",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"enemy_type",
+                         "type":"string",
+                         "value":"goblin"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":542.544347520637,
+                 "y":935.214565891927
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -270,7 +306,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":285,
+ "nextobjectid":287,
  "orientation":"orthogonal",
  "properties":[
         {

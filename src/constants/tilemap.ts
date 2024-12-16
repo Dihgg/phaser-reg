@@ -9,5 +9,6 @@ export enum TilemapLayers {
 export enum TilemapObjects {
   SpawnPoint = 'Spawn Point',
   Exit = 'Exit',
+  Enemy = 'Enemy',
   Sign = 'Sign',
 }
