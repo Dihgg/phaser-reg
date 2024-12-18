@@ -1,8 +1,9 @@
 import { Direction } from 'grid-engine';
 
 import { Character, CharacterProps } from './Character';
+import { key } from '@constants';
 
-type PlayerProps = CharacterProps;
+type PlayerProps = Omit<CharacterProps, 'id'>;
 
 type Cursors = Record<
   | 'w'
@@ -35,7 +36,10 @@ export class Player extends Character {
    * @param {PlayerProps} props - The properties for the player character.
    */
   constructor(props: PlayerProps) {
-    super(props);
+    super({
+      ...props,
+      id: key.id.player,
+    });
     this.cursors = this.createCursorKeys();
     this.scene.cameras.main.startFollow(this, true);
     this.scene.cameras.main.setFollowOffset(-this.width, -this.height);

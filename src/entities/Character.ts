@@ -18,6 +18,7 @@ export type CharacterProps = {
   scale?: number; // The scale of the character's sprite (default is 1)
   speed?: number; // The movement speed of the character (default is 6)
   walkingAnimationMapping?: number; // The walking animation mapping for the character (default is 1)
+  facingDirection?: Direction; // The initial facing direction of the character (default is DOWN)
 };
 
 /**
@@ -30,14 +31,14 @@ export class Character extends Sprite {
    * @type {string}
    * @private
    */
-  private readonly id: string;
+  protected readonly id: string;
 
   /**
    * The GridEngine instance for character movement.
    * @type {GridEngine}
    * @private
    */
-  private gridEngine: CharacterProps['gridEngine'];
+  protected gridEngine: CharacterProps['gridEngine'];
 
   /**
    * Creates an instance of Character.
@@ -55,6 +56,7 @@ export class Character extends Sprite {
       scale = 1,
       speed = 6,
       walkingAnimationMapping = 1,
+      facingDirection = Direction.DOWN,
     } = props;
 
     super(scene, x, y, textureName);
@@ -72,6 +74,7 @@ export class Character extends Sprite {
         startPosition: { x, y },
         walkingAnimationMapping,
         speed,
+        facingDirection,
       });
     } catch (e) {
       throw new ReferenceError(

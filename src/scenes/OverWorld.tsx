@@ -1,7 +1,7 @@
 import { key, TilemapLayers, TilemapObjects } from '@constants';
 import { EnemyFactory, Player } from '@entities';
 import { TilemapUtils } from '@utils';
-import { GridEngine } from 'grid-engine';
+import { Direction, GridEngine } from 'grid-engine';
 import { Scene } from 'phaser';
 import Tilemap = Phaser.Tilemaps.Tilemap;
 import ArcadeColliderType = Phaser.Types.Physics.Arcade.ArcadeColliderType;
@@ -20,6 +20,7 @@ export class OverWorld extends Scene implements Map {
   tilemap!: Tilemap;
   gridEngine!: GridEngine;
   player!: Player;
+  private enemiesFactory!: EnemyFactory;
 
   constructor() {
     super(key.scene.overworld);
@@ -51,6 +52,7 @@ export class OverWorld extends Scene implements Map {
    */
   update() {
     this.player.update();
+    this.enemiesFactory.updateAllEnemies();
   }
 
   /**
@@ -105,7 +107,6 @@ export class OverWorld extends Scene implements Map {
 
     this.player = new Player({
       scene: this,
-      id: 'player',
       scale: 0.75,
       speed: 10,
       x: spawnTile!.x,
@@ -117,10 +118,11 @@ export class OverWorld extends Scene implements Map {
   }
 
   private createEnemies() {
-    const enemyFactory = new EnemyFactory({
+    this.enemiesFactory = new EnemyFactory({
       gridEngine: this.gridEngine,
       scene: this,
       textureName: 'characters',
+      tilemap: this.tilemap,
     });
     const enemies = this.tilemap.filterObjects(
       TilemapLayers.Objects,
@@ -128,22 +130,27 @@ export class OverWorld extends Scene implements Map {
     )!;
     enemies.forEach((enemy) => {
       const properties = TilemapUtils.extractProperties(enemy.properties);
-      const enemyType = properties['enemy_type'];
-      console.log('enemy', enemy, enemyType);
+      const {
+        enemy_type: enemyType,
+        movement: movementType,
+        facing_direction: facingDirection,
+      } = properties;
+      console.log('enemy', enemyType, properties, movementType);
       const spawnTile = TilemapUtils.getTilePositionByXY(this.tilemap, {
         x: enemy.x!,
         y: enemy.y!,
       });
-      const newEnemy = enemyFactory.createEnemy({
+      console.log(properties, TilemapUtils.extractPropertyOptions(movementType));
+      this.enemiesFactory.createEnemy({
         enemyType,
         x: spawnTile.x,
         y: spawnTile.y,
         scale: 0.75,
         speed: 8,
-        movementType: 'follow',
+        movementType: TilemapUtils.extractPropertyOptions(movementType).type,
+        movementOptions: TilemapUtils.extractPropertyOptions(movementType).options,
+        facingDirection: facingDirection as Direction,
       });
-      console.log('newEnemy', newEnemy, spawnTile);
-      // newEnemy.setPosition(spawnTile!.x, spawnTile!.y);
     });
   }
   /**

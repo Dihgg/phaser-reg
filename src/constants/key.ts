@@ -19,7 +19,12 @@ const scene: Record<string, string> = {
   menu: 'menu',
 } as const;
 
+const id = {
+  player: 'player',
+} as const;
+
 export const key = {
+  id,
   atlas,
   sprites,
   scene,
