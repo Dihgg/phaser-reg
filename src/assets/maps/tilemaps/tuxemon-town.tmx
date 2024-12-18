@@ -351,9 +351,10 @@
   </object>
   <object id="286" name="Enemy" x="529.055" y="944.207">
    <properties>
+    <property name="character_behaviour" value="line-of-sight;10"/>
+    <property name="character_facing_direction" value="left"/>
+    <property name="character_movement" value="random"/>
     <property name="enemy_type" value="goblin"/>
-    <property name="facing_direction" value="left"/>
-    <property name="movement" value="line-of-sight;10"/>
    </properties>
    <point/>
   </object>

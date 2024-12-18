@@ -1,20 +1,30 @@
 import { Direction } from 'grid-engine';
 import { v4 as uuid } from 'uuid';
 
-import { Character, CharacterProps } from './Character';
+import { Character, CharacterProps, WithLineOfSight } from './Character';
 import Tilemap = Phaser.Tilemaps.Tilemap;
-import { TilemapLayers } from '@constants';
+import { key } from '@constants';
 
-type EnemyProps = CharacterProps;
-class Enemy extends Character {
-  constructor(props: EnemyProps) {
+type EnemyProps = CharacterProps & {
+  targetId: string;
+};
+class Enemy extends Character {}
+
+/* type EnemyWithLineOfSightProps = EnemyProps & {
+  tilemap: Tilemap;
+  options?: string[];
+};
+class EnemyWithLineOfSight extends Enemy {
+  tilemap: Tilemap;
+  maxPathLength = 10;
+  constructor(props: EnemyWithLineOfSightProps) {
     super(props);
+    this.tilemap = props.tilemap;
+    const [maxPathLength] = props.options || [];
+    this.maxPathLength = +maxPathLength;
+    this.lineOfSight(this.targetId);
   }
-  update() {
-    super.update();
-  }
-
-  private isPathBlocked(target: string, tilemap: Tilemap, maxPathLength = 10) {
+  private isPathBlocked(target: string, maxPathLength = 10) {
     const enemyPosition = this.gridEngine.getPosition(this.id);
     const enemyLayer = this.gridEngine.getCharLayer(this.id);
     const targetPosition = this.gridEngine.getPosition(target);
@@ -31,7 +41,7 @@ class Enemy extends Character {
     if (!path.length) return true;
     for (const { position } of path) {
       const { x, y } = position;
-      const tileBlocked = !!tilemap.getTileAt(
+      const tileBlocked = !!this.tilemap.getTileAt(
         x,
         y,
         false,
@@ -53,17 +63,12 @@ class Enemy extends Character {
     return distance <= maxPathLength;
   }
 
-  public lineOfSight(targetId: string, tilemap: Tilemap, options: string[]) {
-    const [maxPathLength] = options;
+  public lineOfSight(targetId: string) {
     this.scene.time.addEvent({
       delay: 200,
       callback: () => {
-        const isLookingAt = this.isInFOV(targetId, +maxPathLength);
-        const isPathBlocked = this.isPathBlocked(
-          targetId,
-          tilemap,
-          +maxPathLength,
-        );
+        const isLookingAt = this.isInFOV(targetId, this.maxPathLength);
+        const isPathBlocked = this.isPathBlocked(targetId, this.maxPathLength);
         if (!isPathBlocked && isLookingAt) {
           if (!this.gridEngine.isMoving(this.id)) {
             this.gridEngine.follow(this.id, targetId);
@@ -76,7 +81,7 @@ class Enemy extends Character {
       loop: true,
     });
   }
-}
+} */
 
 type EnemyFactoryProps = Pick<
   CharacterProps,
@@ -90,9 +95,10 @@ type CreateEnemyProps = {
   y: number;
   scale?: number;
   speed?: number;
-  movementType?: 'random' | 'follow' | 'line-of-sight' | string;
-  movementOptions?: string[];
   facingDirection?: Direction;
+  movementType?: 'random' | string;
+  behaviour?: 'line-of-sight' | string;
+  behaviourOptions?: string[];
 };
 export class EnemyFactory {
   gridEngine: EnemyProps['gridEngine']; // The GridEngine instance for character movement
@@ -115,7 +121,8 @@ export class EnemyFactory {
       speed,
       scale,
       movementType = 'random',
-      movementOptions = [],
+      behaviour = 'line-of-sight',
+      behaviourOptions = [],
       facingDirection = Direction.DOWN,
     } = createProps;
     const id = uuid();
@@ -128,6 +135,7 @@ export class EnemyFactory {
       gridEngine: this.gridEngine,
       scene: this.scene,
       textureName: this.textureName,
+      targetId: key.id.player,
       id,
       x,
       y,
@@ -135,26 +143,34 @@ export class EnemyFactory {
       speed,
       facingDirection,
     };
+    /* const enemy = new Enemy({
+      ...props,
+      walkingAnimationMapping,
+    });*/
+    console.log('movementType', movementType);
     const enemy = new Enemy({
       ...props,
       walkingAnimationMapping,
     });
-    console.log('movementType', movementType);
-    switch (movementType) {
-      case 'random':
-        enemy.moveRandomly(1000);
-        break;
-      case 'follow':
-        enemy.follows('player');
-        break;
+    switch (behaviour) {
       case 'line-of-sight':
-        // figure out the tiles a follow would use and check if it is unobstructed
-        enemy.lineOfSight('player', this.tilemap, movementOptions);
-
+        this.enemies.push(
+          /* new EnemyWithLineOfSight({
+            ...props,
+            walkingAnimationMapping,
+            tilemap: this.tilemap,
+            options: behaviourOptions,
+          }),*/
+          new WithLineOfSight(enemy, {
+            targetId: props.targetId,
+            tilemap: this.tilemap,
+            options: behaviourOptions,
+          }).character,
+        );
         break;
     }
-    this.enemies.push(enemy);
-    return enemy;
+    // this.enemies.push(enemy);
+    return this.enemies[this.enemies.length - 1];
   }
 
   updateAllEnemies() {

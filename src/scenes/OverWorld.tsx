@@ -132,24 +132,25 @@ export class OverWorld extends Scene implements Map {
       const properties = TilemapUtils.extractProperties(enemy.properties);
       const {
         enemy_type: enemyType,
-        movement: movementType,
-        facing_direction: facingDirection,
+        character_movement: movementType,
+        character_facing_direction: facingDirection,
+        character_behaviour: characterBehaviour,
       } = properties;
-      console.log('enemy', enemyType, properties, movementType);
       const spawnTile = TilemapUtils.getTilePositionByXY(this.tilemap, {
         x: enemy.x!,
         y: enemy.y!,
       });
-      console.log(properties, TilemapUtils.extractPropertyOptions(movementType));
+      const behaviour = TilemapUtils.extractPropertyOptions(characterBehaviour);
       this.enemiesFactory.createEnemy({
         enemyType,
         x: spawnTile.x,
         y: spawnTile.y,
         scale: 0.75,
         speed: 8,
-        movementType: TilemapUtils.extractPropertyOptions(movementType).type,
-        movementOptions: TilemapUtils.extractPropertyOptions(movementType).options,
         facingDirection: facingDirection as Direction,
+        movementType: movementType,
+        behaviour: behaviour.type,
+        behaviourOptions: behaviour.options,
       });
     });
   }
