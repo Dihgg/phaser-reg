@@ -143,11 +143,6 @@ export class EnemyFactory {
       speed,
       facingDirection,
     };
-    /* const enemy = new Enemy({
-      ...props,
-      walkingAnimationMapping,
-    });*/
-    console.log('movementType', movementType);
     const enemy = new Enemy({
       ...props,
       walkingAnimationMapping,

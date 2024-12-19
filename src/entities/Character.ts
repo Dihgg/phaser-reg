@@ -144,7 +144,7 @@ export class WithLineOfSight extends CharacterBehaviour {
       callback: () => this.lineOfSight(),
     });
   }
-  private isPathBlocked(/* target: string, maxPathLength = 10 */) {
+  private isPathBlocked() {
     const { gridEngine, id } = this.character;
     const { targetId, maxPathLength } = this;
     const enemyPosition = gridEngine.getPosition(id);
@@ -187,15 +187,21 @@ export class WithLineOfSight extends CharacterBehaviour {
     return distance <= maxPathLength;
   }
   private lineOfSight() {
-    console.log('should check line of sight');
+    if (this.character.gridEngine.isMoving(this.character.id)) {
+      return;
+    }
     const isPathBlocked = this.isPathBlocked();
     const isInFOV = this.isInFOV();
     if (!isPathBlocked && isInFOV) {
-      this.character.follows(this.targetId);
-      // this.character.gridEngine.follow(this.character.id, this.targetId);
+      // this.character.follows(this.targetId);
+      this.character.moveTo(
+        this.character.gridEngine.getPosition(this.targetId),
+        {
+          ignoredChars: [this.targetId],
+        },
+      );
     } else {
       this.character.gridEngine.stopMovement(this.character.id);
     }
-    console.log('isPathBlocked', isPathBlocked);
   }
 }
