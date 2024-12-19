@@ -40,7 +40,13 @@ export class Character extends Sprite {
    * @type {GridEngine}
    * @public
    */
-  public gridEngine: GridEngine;
+  protected _gridEngine!: GridEngine;
+  set gridEngine(gridEngine: GridEngine) {
+    this._gridEngine = gridEngine;
+  }
+  get gridEngine() {
+    return this._gridEngine;
+  }
 
   /**
    * Creates an instance of Character.
@@ -86,11 +92,18 @@ export class Character extends Sprite {
   }
 
   /**
+   * Checks if the character is moving.
+   * @returns {boolean} True if the character is moving, false otherwise.
+   */
+  public isMoving() {
+    return this.gridEngine.isMoving(this.id);
+  }
+  /**
    * Moves the character in the specified direction.
    * @param {Direction} direction - The direction to move the character.
    */
-  public move(direction: Direction) {
-    this.gridEngine.move(this.id, direction);
+  public move(direction?: Direction) {
+    if (direction) this.gridEngine.move(this.id, direction);
   }
 
   /**
@@ -103,11 +116,19 @@ export class Character extends Sprite {
   }
 
   /**
+   * Stops the character's movement.
+   */
+  public stopMovement() {
+    this.gridEngine.stopMovement(this.id);
+  }
+
+  /**
    * Moves the character randomly within a specified radius.
    * @param {number} [delay] - The delay between movements.
    * @param {number} [radius] - The radius within which the character can move.
    */
   public moveRandomly(delay?: number, radius?: number) {
+    console.log('Moving randomly', this.id, delay, radius);
     this.gridEngine.moveRandomly(this.id, delay, radius);
   }
 
@@ -151,18 +172,22 @@ abstract class CharacterBehaviour {
   }
 }
 
-interface WithLineOfSightProps {
+interface WithTarget {
   targetId: string;
+}
+
+type WithLineOfSightProps = WithTarget & {
   tilemap: Tilemap;
   delay?: number;
   options?: string[];
-}
+  onLostSight?: () => void;
+};
 
 /**
  * Class representing a character with line-of-sight behavior.
  * @extends CharacterBehaviour
  */
-export class WithLineOfSight extends CharacterBehaviour {
+export class WithLineOfSight extends CharacterBehaviour implements WithTarget {
   /**
    * The maximum path length for line-of-sight checks.
    * @type {number}
@@ -175,7 +200,7 @@ export class WithLineOfSight extends CharacterBehaviour {
    * @type {string}
    * @private
    */
-  private readonly targetId: string;
+  targetId: string;
 
   /**
    * The tilemap used for pathfinding.
@@ -185,17 +210,30 @@ export class WithLineOfSight extends CharacterBehaviour {
   private readonly tilemap: Tilemap;
 
   /**
+   * The callback function to execute when the target is lost.
+   * @private
+   */
+  private readonly onLostSight?: () => void;
+  /**
+   * Flag indicating if the character has lost sight of the target.
+   * @private
+   */
+  private hasLostSight = false;
+
+  /**
    * Creates an instance of WithLineOfSight.
    * @param {Character} character - The character associated with this behavior.
    * @param {WithLineOfSightProps} props - The properties for the line-of-sight behavior.
    */
   constructor(character: Character, props: WithLineOfSightProps) {
     super(character);
-    const { targetId, tilemap, options = [], delay = 200 } = props;
+    const { targetId, tilemap, options = [], delay = 200, onLostSight } = props;
+
     this.targetId = targetId;
     this.tilemap = tilemap;
     const [maxPathLength] = options;
     this.maxPathLength = +maxPathLength;
+    this.onLostSight = onLostSight;
     this.character.scene.time.addEvent({
       delay,
       loop: true,
@@ -262,7 +300,8 @@ export class WithLineOfSight extends CharacterBehaviour {
    * @private
    */
   private lineOfSight() {
-    if (this.character.gridEngine.isMoving(this.character.id)) {
+    if (this.character.isMoving()) {
+      this.hasLostSight = false;
       return;
     }
     const isPathBlocked = this.isPathBlocked();
@@ -275,7 +314,12 @@ export class WithLineOfSight extends CharacterBehaviour {
         },
       );
     } else {
-      this.character.gridEngine.stopMovement(this.character.id);
+      this.character.stopMovement();
+      if (!this.hasLostSight && this.onLostSight) {
+        this.onLostSight();
+        this.character.move();
+        this.hasLostSight = true;
+      }
     }
   }
 }

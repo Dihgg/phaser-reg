@@ -3,12 +3,31 @@ import { v4 as uuid } from 'uuid';
 
 import { Character, CharacterProps, WithLineOfSight } from './Character';
 import Tilemap = Phaser.Tilemaps.Tilemap;
-import { key } from '@constants';
 
+type MovementType = 'random' | string;
 type EnemyProps = CharacterProps & {
-  targetId: string;
+  movement?: MovementType;
+  movementOptions?: string[];
 };
-class Enemy extends Character {}
+class Enemy extends Character {
+  private readonly movement?: MovementType;
+  private readonly movementOptions?: string[];
+  constructor(props: EnemyProps) {
+    const { movement = 'random', movementOptions = [] } = props;
+    super(props);
+    this.movement = movement;
+    this.movementOptions = movementOptions;
+  }
+  move() {
+    console.log('Moving enemy');
+    const { movement, movementOptions = [] } = this;
+    switch (movement) {
+      case 'random':
+        this.moveRandomly(...movementOptions.map((value) => +value));
+        break;
+    }
+  }
+}
 
 type EnemyFactoryProps = Pick<
   CharacterProps,
@@ -18,12 +37,14 @@ type EnemyFactoryProps = Pick<
 };
 type CreateEnemyProps = {
   enemyType: string;
+  targetId: string;
   x: number;
   y: number;
   scale?: number;
   speed?: number;
   facingDirection?: Direction;
-  movementType?: 'random' | string;
+  movement?: 'random' | string;
+  movementOptions?: string[];
   behaviour?: 'line-of-sight' | string;
   behaviourOptions?: string[];
 };
@@ -43,11 +64,13 @@ export class EnemyFactory {
   createEnemy(createProps: CreateEnemyProps): Enemy {
     const {
       enemyType,
+      targetId,
       x,
       y,
       speed,
       scale,
-      movementType = 'random',
+      movement = 'random',
+      movementOptions = [],
       behaviour = 'line-of-sight',
       behaviourOptions = [],
       facingDirection = Direction.DOWN,
@@ -58,31 +81,35 @@ export class EnemyFactory {
         goblin: 1,
         thief: 2,
       }[enemyType] || 1;
-    const props: EnemyProps = {
+
+    const enemy = new Enemy({
       gridEngine: this.gridEngine,
       scene: this.scene,
       textureName: this.textureName,
-      targetId: key.id.player,
       id,
       x,
       y,
       scale,
       speed,
       facingDirection,
-    };
-    const enemy = new Enemy({
-      ...props,
       walkingAnimationMapping,
+      movement,
+      movementOptions,
     });
     switch (behaviour) {
       case 'line-of-sight':
         this.enemies.push(
           new WithLineOfSight(enemy, {
-            targetId: props.targetId,
             tilemap: this.tilemap,
+            targetId,
             options: behaviourOptions,
+            onLostSight: () => {
+              console.log('Lost sight of player');
+            },
           }).character,
         );
+        break;
+      default:
         break;
     }
     return this.enemies[this.enemies.length - 1];

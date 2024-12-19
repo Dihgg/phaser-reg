@@ -353,7 +353,7 @@
    <properties>
     <property name="character_behaviour" value="line-of-sight;10"/>
     <property name="character_facing_direction" value="left"/>
-    <property name="character_movement" value="random"/>
+    <property name="character_movement" value="random;200;10"/>
     <property name="enemy_type" value="goblin"/>
    </properties>
    <point/>
