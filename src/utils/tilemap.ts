@@ -39,6 +39,7 @@ export class TilemapUtils {
   }
 
   static extractPropertyOptions(property: string) {
+    if (!property) return null;
     const [type, ...options] = property.split(';');
     return { type, options };
   }

@@ -95,7 +95,7 @@ export class Character extends Sprite {
    * Checks if the character is moving.
    * @returns {boolean} True if the character is moving, false otherwise.
    */
-  public isMoving() {
+  public isMoving(): boolean {
     return this.gridEngine.isMoving(this.id);
   }
   /**
@@ -142,6 +142,10 @@ export class Character extends Sprite {
   }
 }
 
+type CharacterBehaviourProps = {
+  delay?: number;
+  loop?: boolean;
+};
 /**
  * Abstract class representing a character behavior.
  * @abstract
@@ -157,9 +161,19 @@ abstract class CharacterBehaviour {
   /**
    * Creates an instance of CharacterBehaviour.
    * @param {Character} character - The character associated with this behavior.
+   * @param {CharacterBehaviourProps} [props={}] - The properties for the behavior.
    */
-  protected constructor(character: Character) {
+  protected constructor(
+    character: Character,
+    props: CharacterBehaviourProps = {},
+  ) {
+    const { delay = 200, loop = true } = props;
     this._character = character;
+    this.character.scene.time.addEvent({
+      delay,
+      loop,
+      callback: () => this.behaviour(),
+    });
   }
 
   /**
@@ -170,18 +184,20 @@ abstract class CharacterBehaviour {
   get character() {
     return this._character;
   }
+
+  protected abstract behaviour(): void;
 }
 
 interface WithTarget {
   targetId: string;
 }
 
-type WithLineOfSightProps = WithTarget & {
-  tilemap: Tilemap;
-  delay?: number;
-  options?: string[];
-  onLostSight?: () => void;
-};
+type WithLineOfSightProps = CharacterBehaviourProps &
+  WithTarget & {
+    tilemap: Tilemap;
+    options?: string[];
+    onLostSight?: () => void;
+  };
 
 /**
  * Class representing a character with line-of-sight behavior.
@@ -226,19 +242,14 @@ export class WithLineOfSight extends CharacterBehaviour implements WithTarget {
    * @param {WithLineOfSightProps} props - The properties for the line-of-sight behavior.
    */
   constructor(character: Character, props: WithLineOfSightProps) {
-    super(character);
-    const { targetId, tilemap, options = [], delay = 200, onLostSight } = props;
+    super(character, props);
+    const { targetId, tilemap, options = [], onLostSight } = props;
 
     this.targetId = targetId;
     this.tilemap = tilemap;
     const [maxPathLength] = options;
     this.maxPathLength = +maxPathLength;
     this.onLostSight = onLostSight;
-    this.character.scene.time.addEvent({
-      delay,
-      loop: true,
-      callback: () => this.lineOfSight(),
-    });
   }
 
   /**
@@ -299,14 +310,16 @@ export class WithLineOfSight extends CharacterBehaviour implements WithTarget {
    * Performs the line-of-sight check and updates the character's behavior.
    * @private
    */
-  private lineOfSight() {
-    if (this.character.isMoving()) {
-      this.hasLostSight = false;
+  protected behaviour() {
+    console.log('Line of sight behaviour update');
+    /*if (this.character.isMoving()) {
+      
       return;
-    }
+    }*/
     const isPathBlocked = this.isPathBlocked();
     const isInFOV = this.isInFOV();
     if (!isPathBlocked && isInFOV) {
+      this.hasLostSight = false;
       this.character.moveTo(
         this.character.gridEngine.getPosition(this.targetId),
         {
@@ -314,12 +327,33 @@ export class WithLineOfSight extends CharacterBehaviour implements WithTarget {
         },
       );
     } else {
-      this.character.stopMovement();
+      // this.character.stopMovement();
       if (!this.hasLostSight && this.onLostSight) {
         this.onLostSight();
         this.character.move();
         this.hasLostSight = true;
       }
     }
+  }
+}
+
+type SimpleMovementProps = WithTarget;
+export class WithSimpleMovement
+  extends CharacterBehaviour
+  implements WithTarget
+{
+  targetId: string;
+  constructor(character: Character, props: SimpleMovementProps) {
+    const { targetId } = props;
+    super(character, {
+      delay: 0,
+      loop: false,
+    });
+    this.targetId = targetId;
+  }
+
+  protected behaviour(): void {
+    console.log('Simple movement');
+    this.character.move();
   }
 }

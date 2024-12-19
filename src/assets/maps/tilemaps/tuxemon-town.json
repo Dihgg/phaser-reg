@@ -276,6 +276,34 @@
                  "point":true,
                  "properties":[
                         {
+                         "name":"character_facing_direction",
+                         "type":"string",
+                         "value":"down"
+                        }, 
+                        {
+                         "name":"character_movement",
+                         "type":"string",
+                         "value":"random;1000;10"
+                        }, 
+                        {
+                         "name":"enemy_type",
+                         "type":"string",
+                         "value":"thief"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":145.377229377671,
+                 "y":1077.59497494292
+                }, 
+                {
+                 "height":0,
+                 "id":287,
+                 "name":"Enemy",
+                 "point":true,
+                 "properties":[
+                        {
                          "name":"character_behaviour",
                          "type":"string",
                          "value":"line-of-sight;10"
@@ -288,7 +316,7 @@
                         {
                          "name":"character_movement",
                          "type":"string",
-                         "value":"random;200;10"
+                         "value":"random;1000;10"
                         }, 
                         {
                          "name":"enemy_type",
@@ -299,8 +327,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":529.055,
-                 "y":944.207
+                 "x":518.564486856741,
+                 "y":915.730929102512
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -309,7 +337,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":287,
+ "nextobjectid":288,
  "orientation":"orthogonal",
  "properties":[
         {

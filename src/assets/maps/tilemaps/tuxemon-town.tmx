@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="287">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="288">
  <editorsettings>
   <export target="tuxemon-town.json" format="json"/>
  </editorsettings>
@@ -349,11 +349,19 @@
     <property name="map" value="forest"/>
    </properties>
   </object>
-  <object id="286" name="Enemy" x="529.055" y="944.207">
+  <object id="286" name="Enemy" x="145.377" y="1077.59">
+   <properties>
+    <property name="character_facing_direction" value="down"/>
+    <property name="character_movement" value="random;1000;10"/>
+    <property name="enemy_type" value="thief"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="287" name="Enemy" x="518.564" y="915.731">
    <properties>
     <property name="character_behaviour" value="line-of-sight;10"/>
     <property name="character_facing_direction" value="left"/>
-    <property name="character_movement" value="random;200;10"/>
+    <property name="character_movement" value="random;1000;10"/>
     <property name="enemy_type" value="goblin"/>
    </properties>
    <point/>

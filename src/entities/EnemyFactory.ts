@@ -1,7 +1,12 @@
 import { Direction } from 'grid-engine';
 import { v4 as uuid } from 'uuid';
 
-import { Character, CharacterProps, WithLineOfSight } from './Character';
+import {
+  Character,
+  CharacterProps,
+  WithLineOfSight,
+  WithSimpleMovement,
+} from './Character';
 import Tilemap = Phaser.Tilemaps.Tilemap;
 
 type MovementType = 'random' | string;
@@ -10,8 +15,8 @@ type EnemyProps = CharacterProps & {
   movementOptions?: string[];
 };
 class Enemy extends Character {
-  private readonly movement?: MovementType;
-  private readonly movementOptions?: string[];
+  private readonly movement: MovementType;
+  private readonly movementOptions: string[] = [];
   constructor(props: EnemyProps) {
     const { movement = 'random', movementOptions = [] } = props;
     super(props);
@@ -19,11 +24,9 @@ class Enemy extends Character {
     this.movementOptions = movementOptions;
   }
   move() {
-    console.log('Moving enemy');
-    const { movement, movementOptions = [] } = this;
-    switch (movement) {
+    switch (this.movement) {
       case 'random':
-        this.moveRandomly(...movementOptions.map((value) => +value));
+        this.moveRandomly(...this.movementOptions.map((value) => +value));
         break;
     }
   }
@@ -71,7 +74,7 @@ export class EnemyFactory {
       scale,
       movement = 'random',
       movementOptions = [],
-      behaviour = 'line-of-sight',
+      behaviour,
       behaviourOptions = [],
       facingDirection = Direction.DOWN,
     } = createProps;
@@ -98,6 +101,7 @@ export class EnemyFactory {
     });
     switch (behaviour) {
       case 'line-of-sight':
+        console.log('Enemy created with line of sight behaviour');
         this.enemies.push(
           new WithLineOfSight(enemy, {
             tilemap: this.tilemap,
@@ -106,10 +110,15 @@ export class EnemyFactory {
             onLostSight: () => {
               console.log('Lost sight of player');
             },
-          }).character,
+          }).character as Enemy,
         );
         break;
       default:
+        this.enemies.push(
+          new WithSimpleMovement(enemy, {
+            targetId,
+          }).character as Enemy,
+        );
         break;
     }
     return this.enemies[this.enemies.length - 1];
