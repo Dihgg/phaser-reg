@@ -10,18 +10,18 @@ import { Scene } from 'phaser';
 import Tilemap = Phaser.Tilemaps.Tilemap;
 import { TilemapLayers } from '@constants';
 
-export type CharacterProps = {
-  scene: Scene; // The scene to which this character belongs
-  id: string; // The unique identifier for the character
-  textureName: string; // The texture key for the character's sprite
-  gridEngine: GridEngine; // The GridEngine instance for character movement
-  x?: number; // The initial x-coordinate of the character (default is 0)
-  y?: number; // The initial y-coordinate of the character (default is 0)
-  scale?: number; // The scale of the character's sprite (default is 1)
-  speed?: number; // The movement speed of the character (default is 6)
-  walkingAnimationMapping?: number; // The walking animation mapping for the character (default is 1)
-  facingDirection?: Direction; // The initial facing direction of the character (default is DOWN)
-};
+export interface CharacterProps {
+  scene: Scene;
+  id: string;
+  textureName: string;
+  gridEngine: GridEngine;
+  x?: number;
+  y?: number;
+  scale?: number;
+  speed?: number;
+  walkingAnimationMapping?: number;
+  facingDirection?: Direction;
+}
 
 /**
  * Represents a character in the game.
@@ -31,16 +31,16 @@ export class Character extends Sprite {
   /**
    * The unique identifier for the character.
    * @type {string}
-   * @private
+   * @public
    */
   public readonly id: string;
 
   /**
    * The GridEngine instance for character movement.
    * @type {GridEngine}
-   * @private
+   * @public
    */
-  public gridEngine: CharacterProps['gridEngine'];
+  public gridEngine: GridEngine;
 
   /**
    * Creates an instance of Character.
@@ -102,35 +102,93 @@ export class Character extends Sprite {
     this.gridEngine.moveTo(this.id, position, config);
   }
 
+  /**
+   * Moves the character randomly within a specified radius.
+   * @param {number} [delay] - The delay between movements.
+   * @param {number} [radius] - The radius within which the character can move.
+   */
   public moveRandomly(delay?: number, radius?: number) {
     this.gridEngine.moveRandomly(this.id, delay, radius);
   }
 
+  /**
+   * Makes the character follow another character.
+   * @param {string} followId - The ID of the character to follow.
+   * @param {FollowOptions} [options] - Optional configuration for the follow action.
+   */
   public follows(followId: string, options?: FollowOptions) {
     this.gridEngine.follow(this.id, followId, options);
   }
 }
 
+/**
+ * Abstract class representing a character behavior.
+ * @abstract
+ */
 abstract class CharacterBehaviour {
+  /**
+   * The character associated with this behavior.
+   * @type {Character}
+   * @protected
+   */
   protected _character: Character;
+
+  /**
+   * Creates an instance of CharacterBehaviour.
+   * @param {Character} character - The character associated with this behavior.
+   */
   protected constructor(character: Character) {
     this._character = character;
   }
+
+  /**
+   * Gets the character associated with this behavior.
+   * @type {Character}
+   * @readonly
+   */
   get character() {
     return this._character;
   }
 }
 
-type WithLineOfSightProps = {
+interface WithLineOfSightProps {
   targetId: string;
   tilemap: Tilemap;
   delay?: number;
   options?: string[];
-};
+}
+
+/**
+ * Class representing a character with line-of-sight behavior.
+ * @extends CharacterBehaviour
+ */
 export class WithLineOfSight extends CharacterBehaviour {
+  /**
+   * The maximum path length for line-of-sight checks.
+   * @type {number}
+   * @private
+   */
   private readonly maxPathLength: number = 10;
+
+  /**
+   * The ID of the target character.
+   * @type {string}
+   * @private
+   */
   private readonly targetId: string;
+
+  /**
+   * The tilemap used for pathfinding.
+   * @type {Tilemap}
+   * @private
+   */
   private readonly tilemap: Tilemap;
+
+  /**
+   * Creates an instance of WithLineOfSight.
+   * @param {Character} character - The character associated with this behavior.
+   * @param {WithLineOfSightProps} props - The properties for the line-of-sight behavior.
+   */
   constructor(character: Character, props: WithLineOfSightProps) {
     super(character);
     const { targetId, tilemap, options = [], delay = 200 } = props;
@@ -144,7 +202,13 @@ export class WithLineOfSight extends CharacterBehaviour {
       callback: () => this.lineOfSight(),
     });
   }
-  private isPathBlocked() {
+
+  /**
+   * Checks if the path to the target is blocked.
+   * @returns {boolean} True if the path is blocked, false otherwise.
+   * @private
+   */
+  private isPathBlocked(): boolean {
     const { gridEngine, id } = this.character;
     const { targetId, maxPathLength } = this;
     const enemyPosition = gridEngine.getPosition(id);
@@ -175,7 +239,13 @@ export class WithLineOfSight extends CharacterBehaviour {
     }
     return false;
   }
-  private isInFOV() {
+
+  /**
+   * Checks if the target is within the field of view.
+   * @returns {boolean} True if the target is within the field of view, false otherwise.
+   * @private
+   */
+  private isInFOV(): boolean {
     const { character, targetId, maxPathLength } = this;
     const { gridEngine } = character;
     const targetPosition = gridEngine.getPosition(targetId);
@@ -186,6 +256,11 @@ export class WithLineOfSight extends CharacterBehaviour {
       Math.abs(targetPosition.y - facingPosition.y);
     return distance <= maxPathLength;
   }
+
+  /**
+   * Performs the line-of-sight check and updates the character's behavior.
+   * @private
+   */
   private lineOfSight() {
     if (this.character.gridEngine.isMoving(this.character.id)) {
       return;
@@ -193,7 +268,6 @@ export class WithLineOfSight extends CharacterBehaviour {
     const isPathBlocked = this.isPathBlocked();
     const isInFOV = this.isInFOV();
     if (!isPathBlocked && isInFOV) {
-      // this.character.follows(this.targetId);
       this.character.moveTo(
         this.character.gridEngine.getPosition(this.targetId),
         {

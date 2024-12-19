@@ -52,7 +52,7 @@ export class OverWorld extends Scene implements Map {
    */
   update() {
     this.player.update();
-    this.enemiesFactory.updateAllEnemies();
+    // this.enemiesFactory.updateAllEnemies();
   }
 
   /**
