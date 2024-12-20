@@ -6,7 +6,7 @@ import Tilemap = Phaser.Tilemaps.Tilemap;
 import { Behaviour } from './behaviour';
 import { BehaviourProps, WithTarget } from './behaviour.types';
 
-type WithLineOfSightProps = BehaviourProps &
+export type LineOfSightBehaviourProps = BehaviourProps &
   WithTarget & {
     tilemap: Tilemap;
     options?: string[];
@@ -37,7 +37,7 @@ export class LineOfSightBehaviour extends Behaviour implements WithTarget {
    * @type {Tilemap}
    * @private
    */
-  private readonly tilemap: Tilemap;
+  protected readonly tilemap: Tilemap;
 
   /**
    * The callback function to execute when the target is lost.
@@ -48,14 +48,14 @@ export class LineOfSightBehaviour extends Behaviour implements WithTarget {
    * Flag indicating if the character has lost sight of the target.
    * @private
    */
-  private hasLostSight = false;
+  protected hasLostSight = false;
 
   /**
    * Creates an instance of WithLineOfSight.
    * @param {Character} character - The character associated with this behavior.
-   * @param {WithLineOfSightProps} props - The properties for the line-of-sight behavior.
+   * @param {LineOfSightBehaviourProps} props - The properties for the line-of-sight behavior.
    */
-  constructor(character: Character, props: WithLineOfSightProps) {
+  constructor(character: Character, props: LineOfSightBehaviourProps) {
     super(character, props);
     const { targetId, tilemap, options = [], onLostSight } = props;
 
@@ -125,6 +125,7 @@ export class LineOfSightBehaviour extends Behaviour implements WithTarget {
    * @private
    */
   protected behaviour() {
+    // this.moveBehaviour();
     const isPathBlocked = this.isPathBlocked();
     const isInFOV = this.isInFOV();
     if (!isPathBlocked && isInFOV) {
@@ -136,11 +137,16 @@ export class LineOfSightBehaviour extends Behaviour implements WithTarget {
         },
       );
     } else {
-      if (!this.hasLostSight && this.onLostSight) {
-        this.onLostSight();
-        this.character.move();
+      if (!this.hasLostSight) {
+        this.onLostSight?.call(this);
+        this.moveBehaviour();
         this.hasLostSight = true;
       }
     }
+  }
+
+  protected moveBehaviour() {
+    console.log('moveBehaviour for LineOfSightBehaviour');
+    this.character.move();
   }
 }

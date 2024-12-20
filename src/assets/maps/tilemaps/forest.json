@@ -150,7 +150,7 @@
          "name":"Collisions",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":40,
          "x":0,
          "y":0
@@ -231,6 +231,67 @@
                          "width":0,
                          "x":502.115,
                          "y":798.852
+                        }, 
+                        {
+                         "height":0,
+                         "id":287,
+                         "name":"Enemy",
+                         "point":true,
+                         "properties":[
+                                {
+                                 "name":"character_facing_direction",
+                                 "type":"string",
+                                 "value":"down"
+                                }, 
+                                {
+                                 "name":"character_movement",
+                                 "type":"string",
+                                 "value":"random;100;10"
+                                }, 
+                                {
+                                 "name":"enemy_type",
+                                 "type":"string",
+                                 "value":"thief"
+                                }],
+                         "rotation":0,
+                         "type":"",
+                         "visible":true,
+                         "width":0,
+                         "x":687.921963936538,
+                         "y":1077.58823792518
+                        }, 
+                        {
+                         "height":0,
+                         "id":288,
+                         "name":"Enemy",
+                         "point":true,
+                         "properties":[
+                                {
+                                 "name":"character_behaviour",
+                                 "type":"string",
+                                 "value":"line-of-sight;10"
+                                }, 
+                                {
+                                 "name":"character_facing_direction",
+                                 "type":"string",
+                                 "value":"left"
+                                }, 
+                                {
+                                 "name":"character_movement",
+                                 "type":"string",
+                                 "value":"random;1000;10"
+                                }, 
+                                {
+                                 "name":"enemy_type",
+                                 "type":"string",
+                                 "value":"goblin"
+                                }],
+                         "rotation":0,
+                         "type":"",
+                         "visible":true,
+                         "width":0,
+                         "x":909.735963936538,
+                         "y":647.45623792518
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -246,7 +307,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":285,
+ "nextobjectid":289,
  "orientation":"orthogonal",
  "properties":[
         {

@@ -39,4 +39,5 @@ export abstract class Behaviour {
   }
 
   protected abstract behaviour(): void;
+  protected abstract moveBehaviour(): void;
 }

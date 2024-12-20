@@ -1,4 +1,4 @@
-import { LineOfSightBehaviour } from '@behaviour';
+import { LineOfSightBehaviour, PatrolBehaviour } from '@behaviour';
 import { SimpleMovementBehaviour } from '@behaviour';
 import { Direction } from 'grid-engine';
 import { v4 as uuid } from 'uuid';
@@ -13,10 +13,10 @@ type EnemyProps = CharacterProps & {
   movementOptions?: string[];
 };
 class Enemy extends Character {
-  private readonly movement: MovementType;
+  private readonly movement?: MovementType;
   private readonly movementOptions: string[] = [];
   constructor(props: EnemyProps) {
-    const { movement = 'random', movementOptions = [] } = props;
+    const { movement, movementOptions = [] } = props;
     super(props);
     this.movement = movement;
     this.movementOptions = movementOptions;
@@ -26,6 +26,9 @@ class Enemy extends Character {
     switch (this.movement) {
       case 'random':
         this.moveRandomly(...this.movementOptions.map((value) => +value));
+        break;
+      default:
+        console.log('no default movement provided');
         break;
     }
   }
@@ -71,7 +74,7 @@ export class EnemyFactory {
       y,
       speed,
       scale,
-      movement = 'random',
+      movement,
       movementOptions = [],
       behaviour,
       behaviourOptions = [],
@@ -98,25 +101,31 @@ export class EnemyFactory {
       movement,
       movementOptions,
     });
-    switch (behaviour) {
-      case 'line-of-sight':
-        this.enemies.push(
-          new LineOfSightBehaviour(enemy, {
-            tilemap: this.tilemap,
-            targetId,
-            options: behaviourOptions,
-            onLostSight: () => {
-              console.log('Lost sight of player');
-            },
-          }).character as Enemy,
-        );
-        break;
-      default:
-        this.enemies.push(
-          new SimpleMovementBehaviour(enemy).character as Enemy,
-        );
-        break;
-    }
+    this.enemies.push(
+      (() => {
+        const commonProps = {
+          tilemap: this.tilemap,
+          targetId,
+          options: behaviourOptions,
+        };
+        switch (behaviour) {
+          case 'line-of-sight':
+            return new LineOfSightBehaviour(enemy, {
+              ...commonProps,
+              onLostSight: () => {
+                console.log('Lost sight of player');
+              },
+            }).character as Enemy;
+          case 'patrol':
+            return new PatrolBehaviour(enemy, {
+              ...commonProps,
+              patrolId: 'patrol-1',
+            }).character as Enemy;
+          default:
+            return new SimpleMovementBehaviour(enemy).character as Enemy;
+        }
+      })(),
+    );
     return this.enemies[this.enemies.length - 1];
   }
 }

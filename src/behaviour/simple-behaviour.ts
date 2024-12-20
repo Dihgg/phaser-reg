@@ -11,6 +11,9 @@ export class SimpleMovementBehaviour extends Behaviour {
   }
 
   protected behaviour(): void {
+    this.moveBehaviour();
+  }
+  protected moveBehaviour(): void {
     this.character.move();
   }
 }

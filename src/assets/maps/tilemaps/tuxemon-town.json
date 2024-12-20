@@ -221,7 +221,7 @@
                  "name":"Exit Points",
                  "objects":[
                         {
-                         "height":90.8087064574675,
+                         "height":90.8087,
                          "id":293,
                          "name":"Exit",
                          "properties":[
@@ -233,9 +233,9 @@
                          "rotation":0,
                          "type":"",
                          "visible":true,
-                         "width":254.993348340261,
-                         "x":224.707529330835,
-                         "y":1187.31035902465
+                         "width":254.993,
+                         "x":224.708,
+                         "y":1187.31
                         }, 
                         {
                          "height":32.0132,
@@ -280,69 +280,8 @@
                          "type":"",
                          "visible":true,
                          "width":0,
-                         "x":427.14126807564,
-                         "y":1176.51191382238
-                        }, 
-                        {
-                         "height":0,
-                         "id":290,
-                         "name":"Enemy",
-                         "point":true,
-                         "properties":[
-                                {
-                                 "name":"character_facing_direction",
-                                 "type":"string",
-                                 "value":"down"
-                                }, 
-                                {
-                                 "name":"character_movement",
-                                 "type":"string",
-                                 "value":"random;100;10"
-                                }, 
-                                {
-                                 "name":"enemy_type",
-                                 "type":"string",
-                                 "value":"thief"
-                                }],
-                         "rotation":0,
-                         "type":"",
-                         "visible":true,
-                         "width":0,
-                         "x":145.377317779989,
-                         "y":1076.09085984427
-                        }, 
-                        {
-                         "height":0,
-                         "id":291,
-                         "name":"Enemy",
-                         "point":true,
-                         "properties":[
-                                {
-                                 "name":"character_behaviour",
-                                 "type":"string",
-                                 "value":"line-of-sight;10"
-                                }, 
-                                {
-                                 "name":"character_facing_direction",
-                                 "type":"string",
-                                 "value":"left"
-                                }, 
-                                {
-                                 "name":"character_movement",
-                                 "type":"string",
-                                 "value":"random;1000;10"
-                                }, 
-                                {
-                                 "name":"enemy_type",
-                                 "type":"string",
-                                 "value":"goblin"
-                                }],
-                         "rotation":0,
-                         "type":"",
-                         "visible":true,
-                         "width":0,
-                         "x":518.564317779989,
-                         "y":914.231859844272
+                         "x":427.141,
+                         "y":1176.51
                         }, 
                         {
                          "height":0,
@@ -369,8 +308,8 @@
                          "type":"",
                          "visible":true,
                          "width":0,
-                         "x":461.612317779989,
-                         "y":626.473859844271
+                         "x":720.894,
+                         "y":1034.13
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -386,7 +325,7 @@
                         {
                          "height":0,
                          "id":294,
-                         "name":"Patrol",
+                         "name":"Patrol Point",
                          "point":true,
                          "properties":[
                                 {
@@ -403,13 +342,13 @@
                          "type":"Patrol",
                          "visible":true,
                          "width":0,
-                         "x":752.368128329723,
-                         "y":620.478894678297
+                         "x":917.23,
+                         "y":1041.63
                         }, 
                         {
                          "height":0,
                          "id":295,
-                         "name":"Patrol",
+                         "name":"Patrol Point",
                          "point":true,
                          "properties":[
                                 {
@@ -426,8 +365,8 @@
                          "type":"Patrol",
                          "visible":true,
                          "width":0,
-                         "x":520.063228148235,
-                         "y":614.483929512324
+                         "x":804.824,
+                         "y":1041.63
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -443,7 +382,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":296,
+ "nextobjectid":297,
  "orientation":"orthogonal",
  "properties":[
         {
