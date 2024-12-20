@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="289">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="290">
  <editorsettings>
   <export target="forest.json" format="json"/>
  </editorsettings>
@@ -3699,8 +3699,8 @@
    </object>
    <object id="287" name="Enemy" x="687.922" y="1077.59">
     <properties>
+     <property name="character_behavior" value="random;100;10"/>
      <property name="character_facing_direction" value="down"/>
-     <property name="character_movement" value="random;100;10"/>
      <property name="enemy_type" value="thief"/>
     </properties>
     <point/>
@@ -3709,7 +3709,14 @@
     <properties>
      <property name="character_behaviour" value="line-of-sight;10"/>
      <property name="character_facing_direction" value="left"/>
-     <property name="character_movement" value="random;1000;10"/>
+     <property name="enemy_type" value="goblin"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="289" name="Enemy" x="744.874" y="840.794">
+    <properties>
+     <property name="character_behaviour" value="patrol;patrol-1;10"/>
+     <property name="character_facing_direction" value="right"/>
      <property name="enemy_type" value="goblin"/>
     </properties>
     <point/>

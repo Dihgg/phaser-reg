@@ -137,7 +137,7 @@
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 734, 734, 734, 734, 0, 0, 0, 734, 734, 734, 734, 0, 0, 734, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 734, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 734, 0,
             734, 734, 734, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 734, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 734, 0,
-            0, 0, 734, 0, 0, 0, 734, 734, 734, 734, 734, 734, 734, 734, 734, 734, 734, 734, 734, 734, 734, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 734, 0,
+            0, 0, 734, 0, 0, 0, 734, 734, 734, 734, 734, 0, 0, 734, 734, 734, 734, 734, 734, 734, 734, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 734, 0,
             0, 0, 734, 0, 0, 0, 734, 734, 734, 734, 734, 0, 0, 0, 0, 0, 734, 734, 734, 734, 734, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 734, 0,
             0, 0, 734, 0, 0, 0, 734, 734, 734, 734, 734, 734, 0, 0, 0, 0, 734, 734, 734, 734, 734, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 734, 0,
             0, 0, 734, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 734, 734, 734, 734, 734, 0,
@@ -285,14 +285,14 @@
                         }, 
                         {
                          "height":0,
-                         "id":292,
+                         "id":297,
                          "name":"Enemy",
                          "point":true,
                          "properties":[
                                 {
-                                 "name":"character_behaviour",
+                                 "name":"character_behavior",
                                  "type":"string",
-                                 "value":"patrol;patrol-1;10"
+                                 "value":"patrol,patrol-1,boomerang;line-of-sight,5"
                                 }, 
                                 {
                                  "name":"character_facing_direction",
@@ -302,14 +302,42 @@
                                 {
                                  "name":"enemy_type",
                                  "type":"string",
-                                 "value":"goblin"
+                                 "value":"thief"
                                 }],
                          "rotation":0,
                          "type":"",
                          "visible":true,
                          "width":0,
-                         "x":720.894,
-                         "y":1034.13
+                         "x":655.902,
+                         "y":949.6
+                        }, 
+                        {
+                         "height":0,
+                         "id":298,
+                         "name":"Enemy",
+                         "point":true,
+                         "properties":[
+                                {
+                                 "name":"character_behavior",
+                                 "type":"string",
+                                 "value":"random,1000,10;line-of-sight,5"
+                                }, 
+                                {
+                                 "name":"character_facing_direction",
+                                 "type":"string",
+                                 "value":"left"
+                                }, 
+                                {
+                                 "name":"enemy_type",
+                                 "type":"string",
+                                 "value":"thief"
+                                }],
+                         "rotation":0,
+                         "type":"",
+                         "visible":true,
+                         "width":0,
+                         "x":500,
+                         "y":924.242
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -367,6 +395,29 @@
                          "width":0,
                          "x":804.824,
                          "y":1041.63
+                        }, 
+                        {
+                         "height":0,
+                         "id":299,
+                         "name":"Patrol Point",
+                         "point":true,
+                         "properties":[
+                                {
+                                 "name":"patrol_id",
+                                 "type":"string",
+                                 "value":"patrol-1"
+                                }, 
+                                {
+                                 "name":"patrol_point",
+                                 "type":"int",
+                                 "value":2
+                                }],
+                         "rotation":0,
+                         "type":"Patrol",
+                         "visible":true,
+                         "width":0,
+                         "x":916.151181818182,
+                         "y":1160.60212121212
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -382,7 +433,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":297,
+ "nextobjectid":300,
  "orientation":"orthogonal",
  "properties":[
         {

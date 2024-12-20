@@ -2,7 +2,7 @@ import './style.css';
 
 import { GameSize } from '@constants';
 import { GridEngine } from 'grid-engine';
-import Phaser, { Game } from 'phaser';
+import Phaser from 'phaser';
 
 import * as scenes from './scenes';
 
@@ -39,5 +39,3 @@ new Phaser.Game({
     ],
   },
 });
-export { SimpleMovementBehaviour } from './behaviour/simple-behaviour';
-export { LineOfSightBehaviour } from './behaviour/line-of-sight';

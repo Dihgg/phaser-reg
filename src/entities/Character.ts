@@ -1,4 +1,5 @@
 import Sprite = Phaser.GameObjects.Sprite;
+import { IBehavior } from '@behavior';
 import {
   Direction,
   FollowOptions,
@@ -7,6 +8,8 @@ import {
   Position,
 } from 'grid-engine';
 import { Scene } from 'phaser';
+
+// Characters can have behaviors, those should use a subscribe pattern to be able to be added and removed and executed
 
 export interface CharacterProps {
   scene: Scene;
@@ -45,6 +48,8 @@ export class Character extends Sprite {
   get gridEngine() {
     return this._gridEngine;
   }
+
+  protected behaviors: IBehavior[] = [];
 
   /**
    * Creates an instance of Character.
@@ -87,6 +92,29 @@ export class Character extends Sprite {
         `GridEngine not initialized! Characters must be created AFTER gridEngine.create\n${e}`,
       );
     }
+  }
+
+  public addBehavior(behavior: IBehavior) {
+    behavior.setCharacter(this);
+    behavior.setPrevious(this.behaviors[this.behaviors.length - 1]);
+    // TODO: maybe cancel the previous behavior timers and add to the last one,
+    // all the behaviours MUST call the previous one to ensure all behaviours are called
+    // The delay should be a separated property
+    this.behaviors.push(behavior);
+    return this;
+  }
+
+  public removeBehavior(behavior: IBehavior) {
+    behavior.remove();
+    const index = this.behaviors.indexOf(behavior);
+    if (index > -1) {
+      this.behaviors.splice(index, 1);
+    }
+    return this;
+  }
+
+  public executeBehaviors() {
+    this.behaviors.forEach((behavior) => behavior.execute());
   }
 
   /**

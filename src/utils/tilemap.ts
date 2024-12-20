@@ -31,16 +31,24 @@ export class TilemapUtils {
     // const { x, y } = tilemap.worldToTileXY(wordPosition.x!, wordPosition.y!)!;
     // return { x, y };
   }
-  static extractProperties(properties: { name: string; value: string }[]) {
-    return properties.reduce((acc: Record<string, string>, prop) => {
-      acc[prop.name] = prop.value;
+  static extractProperties<
+    T extends Record<string, unknown> = Record<string, string>,
+  >(properties: { name: string; value: string }[]) {
+    return properties.reduce((acc, prop) => {
+      (acc as Record<string, unknown>)[prop.name] = prop.value;
       return acc;
-    }, {});
+    }, {} as T);
   }
 
   static extractPropertyOptions(property: string) {
-    if (!property) return null;
-    const [type, ...options] = property.split(';');
-    return { type, options };
+    if (!property) return undefined;
+    const properties: Record<string, string[]> = {};
+    for (const option of property.split(';')) {
+      const [key, ...options] = option.split(',');
+      properties[key] = options;
+      //console.log(key, options);
+    }
+    //const [type, ...options] = property.split(';');
+    return properties;
   }
 }

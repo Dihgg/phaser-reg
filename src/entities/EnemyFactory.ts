@@ -1,11 +1,14 @@
-import { LineOfSightBehaviour, PatrolBehaviour } from '@behaviour';
-import { SimpleMovementBehaviour } from '@behaviour';
 import { Direction } from 'grid-engine';
 import { v4 as uuid } from 'uuid';
 
 import { Character, CharacterProps } from './Character';
 
 import Tilemap = Phaser.Tilemaps.Tilemap;
+import {
+  LineOfSightBehavior,
+  MoveRandomlyBehavior,
+  PatrolBehavior,
+} from '@behavior';
 
 type MovementType = 'random' | string;
 type EnemyProps = CharacterProps & {
@@ -13,7 +16,7 @@ type EnemyProps = CharacterProps & {
   movementOptions?: string[];
 };
 class Enemy extends Character {
-  private readonly movement?: MovementType;
+  /* private readonly movement?: MovementType;
   private readonly movementOptions: string[] = [];
   constructor(props: EnemyProps) {
     const { movement, movementOptions = [] } = props;
@@ -31,7 +34,7 @@ class Enemy extends Character {
         console.log('no default movement provided');
         break;
     }
-  }
+  } */
 }
 
 type EnemyFactoryProps = Pick<
@@ -48,10 +51,7 @@ type CreateEnemyProps = {
   scale?: number;
   speed?: number;
   facingDirection?: Direction;
-  movement?: 'random' | string;
-  movementOptions?: string[];
-  behaviour?: 'line-of-sight' | 'patrol' | string;
-  behaviourOptions?: string[];
+  behaviorOptions?: Record<string, string[]>;
 };
 export class EnemyFactory {
   gridEngine: EnemyProps['gridEngine']; // The GridEngine instance for character movement
@@ -74,11 +74,8 @@ export class EnemyFactory {
       y,
       speed,
       scale,
-      movement,
-      movementOptions = [],
-      behaviour,
-      behaviourOptions = [],
       facingDirection = Direction.DOWN,
+      behaviorOptions,
     } = createProps;
     const id = uuid();
     const walkingAnimationMapping =
@@ -98,34 +95,37 @@ export class EnemyFactory {
       speed,
       facingDirection,
       walkingAnimationMapping,
-      movement,
-      movementOptions,
     });
-    this.enemies.push(
-      (() => {
-        const commonProps = {
-          tilemap: this.tilemap,
+    if (behaviorOptions?.random) {
+      const [movementDelay, radius] = behaviorOptions.random;
+      enemy.addBehavior(
+        new MoveRandomlyBehavior({
+          movementDelay: +movementDelay,
+          radius: +radius,
+        }),
+      );
+    }
+    if (behaviorOptions?.['line-of-sight']) {
+      const [maxPathLength] = behaviorOptions['line-of-sight'];
+      enemy.addBehavior(
+        new LineOfSightBehavior({
           targetId,
-          options: behaviourOptions,
-        };
-        switch (behaviour) {
-          case 'line-of-sight':
-            return new LineOfSightBehaviour(enemy, {
-              ...commonProps,
-              onLostSight: () => {
-                console.log('Lost sight of player');
-              },
-            }).character as Enemy;
-          case 'patrol':
-            return new PatrolBehaviour(enemy, {
-              ...commonProps,
-              patrolId: 'patrol-1',
-            }).character as Enemy;
-          default:
-            return new SimpleMovementBehaviour(enemy).character as Enemy;
-        }
-      })(),
-    );
+          tilemap: this.tilemap,
+          maxPathLength: +maxPathLength,
+        }),
+      );
+    }
+    if (behaviorOptions?.patrol) {
+      const [patrolPoints, patrolBehavior] = behaviorOptions.patrol;
+      enemy.addBehavior(
+        new PatrolBehavior({
+          targetId,
+          tilemap: this.tilemap,
+          patrolId: patrolPoints,
+          movementType: patrolBehavior,
+        }),
+      );
+    }
     return this.enemies[this.enemies.length - 1];
   }
 }

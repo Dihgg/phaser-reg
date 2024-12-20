@@ -239,14 +239,14 @@
                          "point":true,
                          "properties":[
                                 {
+                                 "name":"character_behavior",
+                                 "type":"string",
+                                 "value":"random;100;10"
+                                }, 
+                                {
                                  "name":"character_facing_direction",
                                  "type":"string",
                                  "value":"down"
-                                }, 
-                                {
-                                 "name":"character_movement",
-                                 "type":"string",
-                                 "value":"random;100;10"
                                 }, 
                                 {
                                  "name":"enemy_type",
@@ -257,8 +257,8 @@
                          "type":"",
                          "visible":true,
                          "width":0,
-                         "x":687.921963936538,
-                         "y":1077.58823792518
+                         "x":687.922,
+                         "y":1077.59
                         }, 
                         {
                          "height":0,
@@ -277,9 +277,32 @@
                                  "value":"left"
                                 }, 
                                 {
-                                 "name":"character_movement",
+                                 "name":"enemy_type",
                                  "type":"string",
-                                 "value":"random;1000;10"
+                                 "value":"goblin"
+                                }],
+                         "rotation":0,
+                         "type":"",
+                         "visible":true,
+                         "width":0,
+                         "x":909.736,
+                         "y":647.456
+                        }, 
+                        {
+                         "height":0,
+                         "id":289,
+                         "name":"Enemy",
+                         "point":true,
+                         "properties":[
+                                {
+                                 "name":"character_behaviour",
+                                 "type":"string",
+                                 "value":"patrol;patrol-1;10"
+                                }, 
+                                {
+                                 "name":"character_facing_direction",
+                                 "type":"string",
+                                 "value":"right"
                                 }, 
                                 {
                                  "name":"enemy_type",
@@ -290,8 +313,8 @@
                          "type":"",
                          "visible":true,
                          "width":0,
-                         "x":909.735963936538,
-                         "y":647.45623792518
+                         "x":744.874,
+                         "y":840.794
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -307,7 +330,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":289,
+ "nextobjectid":290,
  "orientation":"orthogonal",
  "properties":[
         {

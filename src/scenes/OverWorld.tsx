@@ -132,16 +132,16 @@ export class OverWorld extends Scene implements Map {
       const properties = TilemapUtils.extractProperties(enemy.properties);
       const {
         enemy_type: enemyType,
-        character_movement: characterMovement,
+        character_behavior: characterBehavior,
         character_facing_direction: facingDirection,
-        character_behaviour: characterBehaviour,
       } = properties;
       const spawnTile = TilemapUtils.getTilePositionByXY(this.tilemap, {
         x: enemy.x!,
         y: enemy.y!,
       });
-      const behaviour = TilemapUtils.extractPropertyOptions(characterBehaviour);
-      const movement = TilemapUtils.extractPropertyOptions(characterMovement);
+      // const behaviour = TilemapUtils.extractPropertyOptions(characterBehaviour);
+      const behavior = TilemapUtils.extractPropertyOptions(characterBehavior);
+      // console.log('behaviour', behaviour, 'movement', movement);
       this.enemiesFactory.createEnemy({
         enemyType,
         targetId: this.player.id,
@@ -150,10 +150,7 @@ export class OverWorld extends Scene implements Map {
         scale: 0.75,
         speed: 6,
         facingDirection: facingDirection as Direction,
-        movement: movement?.type,
-        movementOptions: movement?.options,
-        behaviour: behaviour?.type,
-        behaviourOptions: behaviour?.options,
+        behaviorOptions: behavior,
       });
     }
   }
