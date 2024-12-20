@@ -1,12 +1,10 @@
+import { LineOfSightBehaviour } from '@behaviour';
+import { SimpleMovementBehaviour } from '@behaviour';
 import { Direction } from 'grid-engine';
 import { v4 as uuid } from 'uuid';
 
-import {
-  Character,
-  CharacterProps,
-  WithLineOfSight,
-  WithSimpleMovement,
-} from './Character';
+import { Character, CharacterProps } from './Character';
+
 import Tilemap = Phaser.Tilemaps.Tilemap;
 
 type MovementType = 'random' | string;
@@ -24,6 +22,7 @@ class Enemy extends Character {
     this.movementOptions = movementOptions;
   }
   move() {
+    console.log('Moving enemy', this.id, this.movement, this.movementOptions);
     switch (this.movement) {
       case 'random':
         this.moveRandomly(...this.movementOptions.map((value) => +value));
@@ -101,9 +100,8 @@ export class EnemyFactory {
     });
     switch (behaviour) {
       case 'line-of-sight':
-        console.log('Enemy created with line of sight behaviour');
         this.enemies.push(
-          new WithLineOfSight(enemy, {
+          new LineOfSightBehaviour(enemy, {
             tilemap: this.tilemap,
             targetId,
             options: behaviourOptions,
@@ -115,9 +113,7 @@ export class EnemyFactory {
         break;
       default:
         this.enemies.push(
-          new WithSimpleMovement(enemy, {
-            targetId,
-          }).character as Enemy,
+          new SimpleMovementBehaviour(enemy).character as Enemy,
         );
         break;
     }

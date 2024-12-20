@@ -23,6 +23,7 @@
       "@components": ["./src/components/index"],
       "@entities": ["./src/entities/index"],
       "@utils": ["./src/utils/index"],
+      "@behaviour": ["./src/behaviour/index"],
     }
   },
   "include": ["src"]

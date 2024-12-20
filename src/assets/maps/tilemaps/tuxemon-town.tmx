@@ -352,7 +352,7 @@
   <object id="286" name="Enemy" x="145.377" y="1077.59">
    <properties>
     <property name="character_facing_direction" value="down"/>
-    <property name="character_movement" value="random;1000;10"/>
+    <property name="character_movement" value="random;100;10"/>
     <property name="enemy_type" value="thief"/>
    </properties>
    <point/>

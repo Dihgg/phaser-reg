@@ -39,3 +39,5 @@ new Phaser.Game({
     ],
   },
 });
+export { SimpleMovementBehaviour } from './behaviour/simple-behaviour';
+export { LineOfSightBehaviour } from './behaviour/line-of-sight';

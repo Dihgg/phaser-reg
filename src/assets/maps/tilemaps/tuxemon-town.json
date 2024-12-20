@@ -283,7 +283,7 @@
                         {
                          "name":"character_movement",
                          "type":"string",
-                         "value":"random;1000;10"
+                         "value":"random;100;10"
                         }, 
                         {
                          "name":"enemy_type",
@@ -294,8 +294,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":145.377229377671,
-                 "y":1077.59497494292
+                 "x":145.377,
+                 "y":1077.59
                 }, 
                 {
                  "height":0,
@@ -327,8 +327,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":518.564486856741,
-                 "y":915.730929102512
+                 "x":518.564,
+                 "y":915.731
                 }],
          "opacity":1,
          "type":"objectgroup",

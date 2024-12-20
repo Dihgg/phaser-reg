@@ -52,7 +52,6 @@ export class OverWorld extends Scene implements Map {
    */
   update() {
     this.player.update();
-    // this.enemiesFactory.updateAllEnemies();
   }
 
   /**
@@ -62,6 +61,7 @@ export class OverWorld extends Scene implements Map {
   private loadTilemap() {
     this.tilemap = this.make.tilemap({ key: this.map.name });
     const tileset = this.tilemap.addTilesetImage(
+      // extract tileset name from the tileset path
       this.map.tileset.match(/([^/]+)(?=\.\w+$)/)![0],
       this.map.name,
     )!;
@@ -128,7 +128,7 @@ export class OverWorld extends Scene implements Map {
       TilemapLayers.Objects,
       ({ name }) => name === TilemapObjects.Enemy,
     )!;
-    enemies.forEach((enemy) => {
+    for (const enemy of enemies) {
       const properties = TilemapUtils.extractProperties(enemy.properties);
       const {
         enemy_type: enemyType,
@@ -142,7 +142,6 @@ export class OverWorld extends Scene implements Map {
       });
       const behaviour = TilemapUtils.extractPropertyOptions(characterBehaviour);
       const movement = TilemapUtils.extractPropertyOptions(characterMovement);
-      console.log('enemy props', properties, behaviour, movement);
       this.enemiesFactory.createEnemy({
         enemyType,
         targetId: this.player.id,
@@ -156,7 +155,7 @@ export class OverWorld extends Scene implements Map {
         behaviour: behaviour?.type,
         behaviourOptions: behaviour?.options,
       });
-    });
+    }
   }
   /**
    * Adds the player exit interaction.
