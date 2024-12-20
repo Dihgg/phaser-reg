@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="288">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="296">
  <editorsettings>
   <export target="tuxemon-town.json" format="json"/>
  </editorsettings>
@@ -332,39 +332,67 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="Objects">
-  <object id="275" name="Spawn Point" x="270.165" y="944.218">
-   <properties>
-    <property name="facing_direction" value="right"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="281" name="Exit" x="1248.51" y="224.092" width="31.0985" height="32.0132">
-   <properties>
-    <property name="map" value="forest"/>
-   </properties>
-  </object>
-  <object id="284" name="Exit" x="194.857" y="1194.58" width="314.943" height="83.315">
-   <properties>
-    <property name="map" value="forest"/>
-   </properties>
-  </object>
-  <object id="286" name="Enemy" x="145.377" y="1077.59">
-   <properties>
-    <property name="character_facing_direction" value="down"/>
-    <property name="character_movement" value="random;100;10"/>
-    <property name="enemy_type" value="thief"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="287" name="Enemy" x="518.564" y="915.731">
-   <properties>
-    <property name="character_behaviour" value="line-of-sight;10"/>
-    <property name="character_facing_direction" value="left"/>
-    <property name="character_movement" value="random;1000;10"/>
-    <property name="enemy_type" value="goblin"/>
-   </properties>
-   <point/>
-  </object>
- </objectgroup>
+ <group id="6" name="Objects">
+  <objectgroup id="8" name="Exit Points">
+   <object id="293" name="Exit" x="224.708" y="1187.31" width="254.993" height="90.8087">
+    <properties>
+     <property name="map" value="forest"/>
+    </properties>
+   </object>
+   <object id="281" name="Exit" x="1248.51" y="224.092" width="31.0985" height="32.0132">
+    <properties>
+     <property name="map" value="forest"/>
+    </properties>
+   </object>
+  </objectgroup>
+  <objectgroup id="7" name="Spawn Points">
+   <object id="289" name="Spawn Point" x="427.141" y="1176.51">
+    <properties>
+     <property name="facing_direction" value="right"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="290" name="Enemy" x="145.377" y="1076.09">
+    <properties>
+     <property name="character_facing_direction" value="down"/>
+     <property name="character_movement" value="random;100;10"/>
+     <property name="enemy_type" value="thief"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="291" name="Enemy" x="518.564" y="914.232">
+    <properties>
+     <property name="character_behaviour" value="line-of-sight;10"/>
+     <property name="character_facing_direction" value="left"/>
+     <property name="character_movement" value="random;1000;10"/>
+     <property name="enemy_type" value="goblin"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="292" name="Enemy" x="461.612" y="626.474">
+    <properties>
+     <property name="character_behaviour" value="patrol;patrol-1;10"/>
+     <property name="character_facing_direction" value="right"/>
+     <property name="enemy_type" value="goblin"/>
+    </properties>
+    <point/>
+   </object>
+  </objectgroup>
+  <objectgroup id="4" name="Patrol Points">
+   <object id="294" name="Patrol" type="Patrol" x="752.368" y="620.479">
+    <properties>
+     <property name="patrol_id" value="patrol-1"/>
+     <property name="patrol_point" type="int" value="1"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="295" name="Patrol" type="Patrol" x="520.063" y="614.484">
+    <properties>
+     <property name="patrol_id" value="patrol-1"/>
+     <property name="patrol_point" type="int" value="0"/>
+    </properties>
+    <point/>
+   </object>
+  </objectgroup>
+ </group>
 </map>

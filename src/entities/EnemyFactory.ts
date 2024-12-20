@@ -47,7 +47,7 @@ type CreateEnemyProps = {
   facingDirection?: Direction;
   movement?: 'random' | string;
   movementOptions?: string[];
-  behaviour?: 'line-of-sight' | string;
+  behaviour?: 'line-of-sight' | 'patrol' | string;
   behaviourOptions?: string[];
 };
 export class EnemyFactory {

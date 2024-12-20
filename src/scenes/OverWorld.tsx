@@ -101,7 +101,7 @@ export class OverWorld extends Scene implements Map {
   private createPlayer() {
     const spawnTile = TilemapUtils.getTilePositionByObject(
       this.tilemap,
-      TilemapLayers.Objects,
+      TilemapLayers.SpawnPoints,
       TilemapObjects.SpawnPoint,
     );
 
@@ -125,7 +125,7 @@ export class OverWorld extends Scene implements Map {
       tilemap: this.tilemap,
     });
     const enemies = this.tilemap.filterObjects(
-      TilemapLayers.Objects,
+      TilemapLayers.SpawnPoints,
       ({ name }) => name === TilemapObjects.Enemy,
     )!;
     for (const enemy of enemies) {
@@ -163,10 +163,10 @@ export class OverWorld extends Scene implements Map {
    */
   private addPlayerExitInteraction() {
     const exits = this.tilemap.filterObjects(
-      TilemapLayers.Objects,
+      TilemapLayers.ExitPoints,
       ({ name }) => name === TilemapObjects.Exit,
-    )!;
-    exits.forEach((exit) => {
+    );
+    exits?.forEach((exit) => {
       const exitBody = this.physics.add.staticBody(
         exit.x!,
         exit.y!,

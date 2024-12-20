@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="285">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="285">
  <editorsettings>
   <export target="forest.json" format="json"/>
  </editorsettings>
@@ -3692,9 +3692,11 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="Objects">
-  <object id="275" name="Spawn Point" x="502.115" y="798.852">
-   <point/>
-  </object>
- </objectgroup>
+ <group id="6" name="Objects">
+  <objectgroup id="4" name="Spawn Points">
+   <object id="275" name="Spawn Point" x="502.115" y="798.852">
+    <point/>
+   </object>
+  </objectgroup>
+ </group>
 </map>

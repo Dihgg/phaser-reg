@@ -213,29 +213,39 @@
          "y":0
         }, 
         {
-         "draworder":"topdown",
-         "id":4,
-         "name":"Objects",
-         "objects":[
+         "id":6,
+         "layers":[
                 {
-                 "height":0,
-                 "id":275,
-                 "name":"Spawn Point",
-                 "point":true,
-                 "rotation":0,
-                 "type":"",
+                 "draworder":"topdown",
+                 "id":4,
+                 "name":"Spawn Points",
+                 "objects":[
+                        {
+                         "height":0,
+                         "id":275,
+                         "name":"Spawn Point",
+                         "point":true,
+                         "rotation":0,
+                         "type":"",
+                         "visible":true,
+                         "width":0,
+                         "x":502.115,
+                         "y":798.852
+                        }],
+                 "opacity":1,
+                 "type":"objectgroup",
                  "visible":true,
-                 "width":0,
-                 "x":502.115,
-                 "y":798.852
+                 "x":0,
+                 "y":0
                 }],
+         "name":"Objects",
          "opacity":1,
-         "type":"objectgroup",
+         "type":"group",
          "visible":true,
          "x":0,
          "y":0
         }],
- "nextlayerid":6,
+ "nextlayerid":7,
  "nextobjectid":285,
  "orientation":"orthogonal",
  "properties":[

@@ -3,6 +3,8 @@ export enum TilemapLayers {
   World = 'World',
   Collisions = 'Collisions',
   AbovePlayer = 'Above Player',
+  SpawnPoints = 'Objects/Spawn Points',
+  ExitPoints = 'Objects/Exit Points',
   Objects = 'Objects',
 }
 
