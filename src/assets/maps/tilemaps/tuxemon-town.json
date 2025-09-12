@@ -410,14 +410,37 @@
                                 {
                                  "name":"patrol_point",
                                  "type":"int",
+                                 "value":3
+                                }],
+                         "rotation":0,
+                         "type":"Patrol",
+                         "visible":true,
+                         "width":0,
+                         "x":1066.151,
+                         "y":1057.5696969697
+                        }, 
+                        {
+                         "height":0,
+                         "id":300,
+                         "name":"Patrol Point",
+                         "point":true,
+                         "properties":[
+                                {
+                                 "name":"patrol_id",
+                                 "type":"string",
+                                 "value":"patrol-1"
+                                }, 
+                                {
+                                 "name":"patrol_point",
+                                 "type":"int",
                                  "value":2
                                 }],
                          "rotation":0,
                          "type":"Patrol",
                          "visible":true,
                          "width":0,
-                         "x":916.151181818182,
-                         "y":1160.60212121212
+                         "x":922.727272727273,
+                         "y":1137.87878787879
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -433,7 +456,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":300,
+ "nextobjectid":301,
  "orientation":"orthogonal",
  "properties":[
         {

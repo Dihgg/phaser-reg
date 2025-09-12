@@ -126,6 +126,8 @@ export class EnemyFactory {
         }),
       );
     }
-    return this.enemies[this.enemies.length - 1];
+    enemy.startBehaviors();
+    this.enemies.push(enemy);
+    return enemy;
   }
 }

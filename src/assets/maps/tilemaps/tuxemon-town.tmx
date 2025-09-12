@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="300">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="301">
  <editorsettings>
   <export target="tuxemon-town.json" format="json"/>
  </editorsettings>
@@ -384,7 +384,14 @@
     </properties>
     <point/>
    </object>
-   <object id="299" name="Patrol Point" type="Patrol" x="916.151" y="1160.6">
+   <object id="299" name="Patrol Point" type="Patrol" x="1066.15" y="1057.57">
+    <properties>
+     <property name="patrol_id" value="patrol-1"/>
+     <property name="patrol_point" type="int" value="3"/>
+    </properties>
+    <point/>
+   </object>
+   <object id="300" name="Patrol Point" type="Patrol" x="922.727" y="1137.88">
     <properties>
      <property name="patrol_id" value="patrol-1"/>
      <property name="patrol_point" type="int" value="2"/>

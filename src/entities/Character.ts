@@ -113,8 +113,11 @@ export class Character extends Sprite {
     return this;
   }
 
-  public executeBehaviors() {
-    this.behaviors.forEach((behavior) => behavior.execute());
+  public startBehaviors() {
+    if (this.behaviors.length > 0) {
+      const behavior = this.behaviors[this.behaviors.length - 1];
+      behavior.start();
+    }
   }
 
   /**

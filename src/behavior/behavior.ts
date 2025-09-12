@@ -12,6 +12,8 @@ export interface IBehavior {
 
   execute(): void;
 
+  start(): void;
+
   remove(): void;
 }
 
@@ -22,23 +24,33 @@ type BehaviorConfig = {
 
 abstract class Behavior implements IBehavior {
   protected character!: Character;
-  protected event: TimerEvent;
+  protected event!: TimerEvent;
   protected previous: IBehavior | null = null;
+
+  protected delay: number;
+  protected loop: boolean;
 
   protected constructor(config?: BehaviorConfig) {
     const { delay = 200, loop = false } = config || {};
-    this.event = new TimerEvent({
-      delay,
-      loop,
-      callback: this.execute,
-      callbackScope: this,
-    });
+    this.delay = delay;
+    this.loop = loop;
   }
 
   abstract execute(): void;
 
   public setCharacter(character: Character) {
     this.character = character;
+    // this.character.scene.time.addEvent(this.event);
+  }
+
+  public start(): void {
+    const { delay, loop } = this;
+    this.event = new TimerEvent({
+      delay,
+      loop,
+      callback: this.execute,
+      callbackScope: this,
+    });
     this.character.scene.time.addEvent(this.event);
   }
 
@@ -68,6 +80,7 @@ export class MoveRandomlyBehavior extends Behavior {
   }
 
   execute() {
+    console.log('moving randomly');
     this.character.moveRandomly(this.movementDelay, this.radius);
   }
 }
@@ -149,6 +162,7 @@ export class LineOfSightBehavior extends Behavior {
       this.character.moveTo(tartPos, { ignoredChars: [this.targetId] });
     } else if (!this.hasLostSight) {
       this.previous?.execute();
+      console.log('enemy lost sight, executing previous behavior');
       this.hasLostSight = true;
     }
   }
@@ -268,6 +282,7 @@ export class PatrolBehavior extends Behavior {
 
   execute(): void {
     const { points } = this;
+    this.previous?.execute();
     if (!this.character.isMoving()) {
       this.setPointIndex();
       this.character.moveTo(points[this.pointIndex]);

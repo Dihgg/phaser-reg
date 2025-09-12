@@ -267,9 +267,9 @@
                          "point":true,
                          "properties":[
                                 {
-                                 "name":"character_behaviour",
+                                 "name":"character_behavior",
                                  "type":"string",
-                                 "value":"line-of-sight;10"
+                                 "value":"line-of-sight,10;"
                                 }, 
                                 {
                                  "name":"character_facing_direction",
@@ -287,34 +287,6 @@
                          "width":0,
                          "x":909.736,
                          "y":647.456
-                        }, 
-                        {
-                         "height":0,
-                         "id":289,
-                         "name":"Enemy",
-                         "point":true,
-                         "properties":[
-                                {
-                                 "name":"character_behaviour",
-                                 "type":"string",
-                                 "value":"patrol;patrol-1;10"
-                                }, 
-                                {
-                                 "name":"character_facing_direction",
-                                 "type":"string",
-                                 "value":"right"
-                                }, 
-                                {
-                                 "name":"enemy_type",
-                                 "type":"string",
-                                 "value":"goblin"
-                                }],
-                         "rotation":0,
-                         "type":"",
-                         "visible":true,
-                         "width":0,
-                         "x":744.874,
-                         "y":840.794
                         }],
                  "opacity":1,
                  "type":"objectgroup",

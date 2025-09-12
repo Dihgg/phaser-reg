@@ -3707,16 +3707,8 @@
    </object>
    <object id="288" name="Enemy" x="909.736" y="647.456">
     <properties>
-     <property name="character_behaviour" value="line-of-sight;10"/>
+     <property name="character_behavior" value="line-of-sight,10;"/>
      <property name="character_facing_direction" value="left"/>
-     <property name="enemy_type" value="goblin"/>
-    </properties>
-    <point/>
-   </object>
-   <object id="289" name="Enemy" x="744.874" y="840.794">
-    <properties>
-     <property name="character_behaviour" value="patrol;patrol-1;10"/>
-     <property name="character_facing_direction" value="right"/>
      <property name="enemy_type" value="goblin"/>
     </properties>
     <point/>
